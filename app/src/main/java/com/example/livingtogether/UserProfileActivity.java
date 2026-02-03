@@ -23,9 +23,8 @@ public class UserProfileActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                return true;
             }
-            return id == R.id.nav_matches || id == R.id.nav_messages || id == R.id.nav_profile;
+            return id == R.id.nav_home || id == R.id.nav_matches || id == R.id.nav_messages || id == R.id.nav_profile;
         });
     }
 }
