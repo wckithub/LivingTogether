@@ -35,7 +35,11 @@ public class MainActivity extends AppCompatActivity {
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            return id == R.id.nav_home || id == R.id.nav_matches || id == R.id.nav_messages || id == R.id.nav_profile;
+            if (id == R.id.nav_profile) {
+                startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
+                return true;
+            }
+            return id == R.id.nav_home || id == R.id.nav_matches || id == R.id.nav_messages;
         });
     }
 }

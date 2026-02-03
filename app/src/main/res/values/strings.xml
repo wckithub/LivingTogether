@@ -73,6 +73,7 @@
     <string name="room_photos_label">Room Photos</string>
     <string name="tap_to_upload">Tap to upload photos</string>
     <string name="location_label">Location</string>
+    <string name="location_pref_label">Location Preferences</string>
     <string name="select_area">Select Area</string>
     <string name="select_on_map">Or select on map</string>
     <string name="rent_label">Rent Amount</string>
@@ -109,7 +110,6 @@
     <string name="budget_hint">e.g., 15,000 – 20,000</string>
     <string name="save_pref_button">Save Preferences</string>
 
-    <string name="location_pref_label">Location Preferences</string>
     <string name="search_areas_hint">Search for areas</string>
     <string name="move_in_date_label">Move-in Date</string>
     <string name="select_date_option">Select a date</string>
@@ -127,6 +127,22 @@
     <string name="profile_views_title">Profile Views</string>
     <string name="total_views_week">Total Views This Week</string>
     <string name="new_like_label">New Like</string>
+
+    <string name="profile_title">Profile</string>
+    <string name="user_name_age">Priya Sharma, 26</string>
+    <string name="user_location">Kathmandu, Nepal</string>
+    <string name="user_bio">Friendly, outgoing, and love exploring new places. Looking for a roommate who\'s respectful, tidy, and enjoys a good conversation over coffee.</string>
+    <string name="high">High</string>
+    <string name="medium">Medium</string>
+    <string name="low">Low</string>
+    <string name="non_smoker">Non-smoker</string>
+    <string name="no_pets">No Pets</string>
+    <string name="guests_label">Guests</string>
+    <string name="occasional">Occasional</string>
+    <string name="update_pref_button">Update Preferences</string>
+    <string name="account_label">Account</string>
+    <string name="looking_roommate_label">Looking for a roommate</string>
+    <string name="change_mode_button">Change Mode</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
