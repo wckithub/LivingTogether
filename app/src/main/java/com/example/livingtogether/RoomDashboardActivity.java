@@ -20,10 +20,8 @@ public class RoomDashboardActivity extends AppCompatActivity {
             if (id == R.id.nav_profile) {
                 startActivity(new Intent(this, UserProfileActivity.class));
                 return true;
-            } else if (id == R.id.nav_home) {
-                return true;
             }
-            return false;
+            return id == R.id.nav_home;
         });
 
         binding.btnMenu.setOnClickListener(v -> {
