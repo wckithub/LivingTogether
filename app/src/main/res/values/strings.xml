@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LivingTogether</string>
+    <string name="app_name">Living Together</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -28,13 +29,31 @@
     <string name="first_name_label">First Name</string>
     <string name="last_name_label">Last Name</string>
     <string name="dob_label">Date of Birth</string>
+    <string name="dob_hint">MM / DD / YYYY</string>
     <string name="gender_label">Gender</string>
+    <string name="gender_hint">Select your gender</string>
     <string name="add_photos_title">Add photos</string>
     <string name="add_photos_subtitle">Upload up to 4 photos. A clear face photo is required.</string>
     <string name="bio_label">Bio</string>
     <string name="bio_hint">Tell us about yourself, your lifestyle, and what you\'re looking for in a roommate.</string>
     <string name="skip_button">Skip</string>
     <string name="next_button">Next</string>
+
+    <string name="welcome_title">Welcome to Living Together</string>
+    <string name="welcome_subtitle">Find your perfect roommate in Kathmandu. We prioritize your safety, compatibility, and peace of mind.</string>
+    <string name="verified_profiles_title">Verified Profiles</string>
+    <string name="verified_profiles_desc">Every member is manually verified for your safety and security.</string>
+    <string name="smart_matching_title">Smart Matching</string>
+    <string name="smart_matching_desc">Our algorithm helps you find roommates who fit your lifestyle.</string>
+    <string name="get_started_button">Get Started</string>
+
+    <string name="verify_identity_title">Verify Your Identity</string>
+    <string name="verify_identity_subtitle">Gain a premium trust badge and increase your chances of finding the perfect roommate.</string>
+    <string name="verify_identity_option">Verify Identity</string>
+    <string name="verify_identity_option_desc">Get a premium trust badge</string>
+    <string name="skip_for_now_option">Skip for Now</string>
+    <string name="skip_for_now_option_desc">Continue with a basic account</string>
+    <string name="get_verified_button">Get Verified</string>
 
     <string name="main_title">Living Together</string>
     <string name="what_are_you_looking_for">What are you looking for?</string>
@@ -44,6 +63,11 @@
     <string name="need_room_title">I need a room</string>
     <string name="need_room_desc">Find a room and a roommate.</string>
     <string name="safety_banner_text">We prioritize your safety. All listings are manually verified.</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_matches">Matches</string>
+    <string name="nav_messages">Messages</string>
+    <string name="nav_profile">Profile</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

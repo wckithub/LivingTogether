@@ -12,6 +12,7 @@
         android:id="@+id/btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@null"
         android:padding="16dp"
         android:src="@drawable/ic_arrow_back"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,32 +53,28 @@
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:layout_weight="1"
-            android:background="@color/primary_light"
-            android:alpha="0.3" />
+            android:background="@drawable/circle_indicator_inactive" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:layout_weight="1"
-            android:background="@color/primary_light"
-            android:alpha="0.3" />
+            android:background="@drawable/circle_indicator_inactive" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:layout_weight="1"
-            android:background="@color/primary_light"
-            android:alpha="0.3" />
+            android:background="@drawable/circle_indicator_inactive" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:layout_weight="1"
-            android:background="@color/primary_light"
-            android:alpha="0.3" />
+            android:background="@drawable/circle_indicator_inactive" />
 
     </LinearLayout>
 
@@ -160,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:hint="MM / DD / YYYY"
+                    android:hint="@string/dob_hint"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -177,7 +174,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:text="Select your gender" />
+                    android:text="@string/gender_hint" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -215,6 +212,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:contentDescription="@null"
                         android:src="@drawable/ic_house"
                         app:tint="@color/primary" />
                 </FrameLayout>
@@ -230,6 +228,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:contentDescription="@null"
                         android:src="@drawable/ic_house"
                         app:tint="@color/primary" />
                 </FrameLayout>
@@ -245,6 +244,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:contentDescription="@null"
                         android:src="@drawable/ic_house"
                         app:tint="@color/primary" />
                 </FrameLayout>
@@ -260,6 +260,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:contentDescription="@null"
                         android:src="@drawable/ic_house"
                         app:tint="@color/primary" />
                 </FrameLayout>
