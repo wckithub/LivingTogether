@@ -24,14 +24,8 @@ public class UserProfileActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 return true;
-            } else if (id == R.id.nav_matches) {
-                return true;
-            } else if (id == R.id.nav_messages) {
-                return true;
-            } else if (id == R.id.nav_profile) {
-                return true;
             }
-            return false;
+            return id == R.id.nav_matches || id == R.id.nav_messages || id == R.id.nav_profile;
         });
     }
 }
