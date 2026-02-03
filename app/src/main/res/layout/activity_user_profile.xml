@@ -70,7 +70,7 @@
                         android:id="@+id/iv_user_photo"
                         android:layout_width="match_parent"
                         android:layout_height="350dp"
-                        android:contentDescription="@string/user_name_age"
+                        android:contentDescription="@null"
                         android:scaleType="centerCrop"
                         android:src="@drawable/bg_splash" />
 
@@ -107,44 +107,28 @@
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tv_user_name_age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:paddingBottom="24dp">
+                android:text="@string/user_name_age"
+                android:textColor="@color/text_primary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:drawableEndCompat="@drawable/ic_check_circle"
+                app:drawableTint="#66BB6A"
+                android:drawablePadding="8dp" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/user_name_age"
-                        android:textColor="@color/text_primary"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="8dp"
-                        android:contentDescription="@string/verified_label"
-                        android:src="@drawable/ic_check_circle"
-                        app:tint="#66BB6A" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/user_location"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="16sp" />
-            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:text="@string/user_location"
+                android:textColor="@color/text_secondary"
+                android:textSize="16sp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -183,144 +167,72 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:background="@drawable/surface_card"
                     android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cleanliness_label"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/high"
-                        android:textColor="@color/text_primary"
-                        android:textStyle="bold" />
+                    android:padding="12dp"
+                    android:layout_margin="4dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cleanliness_label" android:textColor="@color/text_secondary" android:textSize="12sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/high" android:textColor="@color/text_primary" android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:background="@drawable/surface_card"
                     android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/social_level_label"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/medium"
-                        android:textColor="@color/text_primary"
-                        android:textStyle="bold" />
+                    android:padding="12dp"
+                    android:layout_margin="4dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/social_level_label" android:textColor="@color/text_secondary" android:textSize="12sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/medium" android:textColor="@color/text_primary" android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:background="@drawable/surface_card"
                     android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/noise_tolerance_label"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/low"
-                        android:textColor="@color/text_primary"
-                        android:textStyle="bold" />
+                    android:padding="12dp"
+                    android:layout_margin="4dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/noise_tolerance_label" android:textColor="@color/text_secondary" android:textSize="12sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/low" android:textColor="@color/text_primary" android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:background="@drawable/surface_card"
                     android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/smoking_label"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/non_smoker"
-                        android:textColor="@color/text_primary"
-                        android:textStyle="bold" />
+                    android:padding="12dp"
+                    android:layout_margin="4dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/smoking_label" android:textColor="@color/text_secondary" android:textSize="12sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/non_smoker" android:textColor="@color/text_primary" android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:background="@drawable/surface_card"
                     android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/pets_label"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/no_pets"
-                        android:textColor="@color/text_primary"
-                        android:textStyle="bold" />
+                    android:padding="12dp"
+                    android:layout_margin="4dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/pets_label" android:textColor="@color/text_secondary" android:textSize="12sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/no_pets" android:textColor="@color/text_primary" android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
                     android:background="@drawable/surface_card"
                     android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/guests_label"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/occasional"
-                        android:textColor="@color/text_primary"
-                        android:textStyle="bold" />
+                    android:padding="12dp"
+                    android:layout_margin="4dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/guests_label" android:textColor="@color/text_secondary" android:textSize="12sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/occasional" android:textColor="@color/text_primary" android:textStyle="bold" />
                 </LinearLayout>
             </GridLayout>
 
