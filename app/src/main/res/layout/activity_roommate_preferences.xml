@@ -78,7 +78,7 @@
                     android:id="@+id/actv_age_range"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Select Age Range"
+                    android:hint="@string/select_age_range_hint"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,7 +105,7 @@
                     android:id="@+id/actv_gender_pref"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Select Gender"
+                    android:hint="@string/select_gender_hint"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,7 +132,7 @@
                     android:id="@+id/actv_occupation_pref"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Select Occupation"
+                    android:hint="@string/select_occupation_hint"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -172,10 +172,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:stepSize="1"
                     android:value="3"
                     android:valueFrom="1"
                     android:valueTo="5"
-                    android:stepSize="1"
                     app:thumbColor="@color/primary"
                     app:trackColorActive="@color/primary" />
 
@@ -213,10 +213,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:stepSize="1"
                     android:value="3"
                     android:valueFrom="1"
                     android:valueTo="5"
-                    android:stepSize="1"
                     app:thumbColor="@color/primary"
                     app:trackColorActive="@color/primary" />
 
@@ -254,10 +254,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:stepSize="1"
                     android:value="3"
                     android:valueFrom="1"
                     android:valueTo="5"
-                    android:stepSize="1"
                     app:thumbColor="@color/primary"
                     app:trackColorActive="@color/primary" />
 

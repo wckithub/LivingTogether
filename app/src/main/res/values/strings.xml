@@ -83,12 +83,16 @@
     <string name="amenities_label">Amenities</string>
     <string name="select_amenities">Select amenities</string>
     <string name="available_from_label">Available From</string>
+    <string name="select_date_hint">Select Date</string>
     <string name="submit_post_button">Submit &amp; Post</string>
 
     <string name="roommate_pref_title">Roommate Preferences</string>
     <string name="age_range_label">Preferred Age Range</string>
+    <string name="select_age_range_hint">Select Age Range</string>
     <string name="gender_pref_label">Gender Preference</string>
+    <string name="select_gender_hint">Select Gender</string>
     <string name="occupation_pref_label">Occupation Preference</string>
+    <string name="select_occupation_hint">Select Occupation</string>
     <string name="lifestyle_pref_label">Lifestyle Preferences</string>
     <string name="cleanliness_label">Cleanliness</string>
     <string name="tidy">Tidy</string>
@@ -102,6 +106,8 @@
     <string name="budget_pref_label">Budget Expectations (NPR)</string>
     <string name="budget_hint">e.g., 15,000 – 20,000</string>
     <string name="save_pref_button">Save Preferences</string>
+
+    <string name="confirm_location">Confirm Location</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

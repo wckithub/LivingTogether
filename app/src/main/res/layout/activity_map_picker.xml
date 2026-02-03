@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MapPickerActivity">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
@@ -25,6 +25,7 @@
             android:layout_height="48dp"
             android:background="@drawable/circle_primary"
             android:backgroundTint="@color/white"
+            android:contentDescription="@null"
             android:elevation="4dp"
             android:src="@drawable/ic_arrow_back"
             app:tint="@color/text_primary" />
@@ -36,7 +37,7 @@
         android:layout_height="64dp"
         android:layout_margin="24dp"
         android:backgroundTint="@color/primary"
-        android:text="Confirm Location"
+        android:text="@string/confirm_location"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:cornerRadius="12dp"
@@ -46,12 +47,13 @@
     <ImageView
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:contentDescription="@null"
         android:src="@drawable/ic_verified_user"
+        android:translationY="-24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/accent"
-        android:translationY="-24dp"/>
+        app:tint="@color/accent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
