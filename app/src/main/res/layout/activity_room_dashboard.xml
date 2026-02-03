@@ -33,6 +33,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_toEndOf="@id/btn_menu"
+                android:layout_toStartOf="@id/btn_settings"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
                 android:text="@string/app_name"
                 android:textColor="@color/text_primary"
                 android:textSize="18sp"
@@ -113,6 +118,7 @@
                             <ImageView
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
+                                android:contentDescription="@null"
                                 android:src="@drawable/ic_check_circle"
                                 app:tint="#22C55E" />
 
@@ -130,7 +136,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Cozy Room in Thamel"
+                            android:text="@string/cozy_room_thamel"
                             android:textColor="@color/text_primary"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -139,7 +145,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="Rs. 15,000/month"
+                            android:text="@string/rent_amount_sample"
                             android:textColor="@color/text_secondary"
                             android:textSize="14sp" />
 
@@ -191,6 +197,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="56dp"
                             android:layout_height="56dp"
+                            android:contentDescription="@null"
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_person"
                             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
@@ -205,7 +212,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Rohan Sharma liked your room"
+                                android:text="@string/notif_rohan"
                                 android:textColor="@color/text_primary"
                                 android:textStyle="bold" />
 
@@ -241,6 +248,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="56dp"
                             android:layout_height="56dp"
+                            android:contentDescription="@null"
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_person"
                             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
@@ -255,7 +263,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Priya Joshi liked your room"
+                                android:text="@string/notif_priya"
                                 android:textColor="@color/text_primary"
                                 android:textStyle="bold" />
 
@@ -309,7 +317,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="23"
+                        android:text="@string/sample_view_count"
                         android:textColor="@color/primary"
                         android:textSize="48sp"
                         android:textStyle="bold" />
@@ -319,16 +327,11 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <include
         android:id="@+id/bottom_navigation"
+        layout="@layout/layout_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/surface"
-        android:elevation="8dp"
-        app:itemIconTint="@color/text_secondary"
-        app:itemTextColor="@color/text_secondary"
-        app:labelVisibilityMode="labeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
