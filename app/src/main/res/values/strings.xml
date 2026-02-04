@@ -165,6 +165,14 @@
     <string name="swipes_left_label">Swipes left today: 24</string>
     <string name="no_matches_yet">No matches yet. Keep exploring!</string>
 
+    <string name="received_message_placeholder">Received Message</string>
+    <string name="sent_message_placeholder">Sent Message</string>
+    <string name="sender_name_placeholder">Sender Name</string>
+    <string name="last_message_placeholder">Last message goes here...</string>
+    <string name="timestamp_placeholder">12:45 PM</string>
+    <string name="chat_title">Chat</string>
+    <string name="type_message_hint">Type a message...</string>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
@@ -173,12 +181,12 @@
         diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
         ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
         Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
-        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        egestas, est a condominium egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
         neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
         fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
         molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
         bibendum, vel congue leo egestas.\n\n
-        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condominium sit
         amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
         molestie quam. Fusce blandit tincidunt nulla, qlis sollicitudin libero facilisis et. Integer
         interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
