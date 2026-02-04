@@ -144,24 +144,24 @@
     <string name="looking_roommate_label">Looking for a roommate</string>
     <string name="change_mode_button">Change Mode</string>
 
+    <string name="cozy_room_thamel">Cozy Room in Thamel</string>
+    <string name="rent_amount_sample">Rs. 15,000/month</string>
+    <string name="notif_rohan">Rohan Sharma liked your room</string>
+    <string name="notif_priya">Priya Joshi liked your room</string>
+    <string name="sample_view_count">23</string>
     <string name="budget_min_default">NPR 5,000</string>
     <string name="budget_max_default">NPR 15,000</string>
     <string name="val_3">3</string>
     <string name="val_2">2</string>
     <string name="val_4">4</string>
 
-    <string name="cozy_room_thamel">Cozy Room in Thamel</string>
-    <string name="rent_amount_sample">Rs. 15,000/month</string>
-    <string name="notif_rohan">Rohan Sharma liked your room</string>
-    <string name="notif_priya">Priya Joshi liked your room</string>
-    <string name="sample_view_count">23</string>
     <string name="find_room_title">Find a Room</string>
     <string name="private_room_label">Private Room</string>
     <string name="room_price_sample">$1200</string>
     <string name="month_label">/month</string>
     <string name="user_sample">Alex, 28</string>
     <string name="location_sample">Sunnyvale, CA</string>
-    <string name="room_desc_sample">Looking for a tidy and respectful roommate. I work in tech and enjoy hiking on weekends. The house is quiet and perfect for someone who works from home...</string>
+    <string name="room_desc_sample">Looking for a tidy and respectful roommate. I work in tech and enjoy hiking on weekends. The house is quiet and perfect for someone who works from home&#8230;</string>
     <string name="swipes_left_label">Swipes left today: 24</string>
 
     <string name="lorem_ipsum">

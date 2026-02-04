@@ -67,11 +67,16 @@ public class SeekerPreferencesActivity extends AppCompatActivity {
         binding.btnBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         binding.btnSavePreferences.setOnClickListener(v -> {
-            // Collect Data
+            // Collect Data Safely
             List<Float> budgetRange = binding.sliderBudget.getValues();
             float minBudget = budgetRange.get(0);
             float maxBudget = budgetRange.get(1);
-            String location = binding.etLocationSearch.getText().toString();
+            
+            String location = "";
+            if (binding.etLocationSearch.getText() != null) {
+                location = binding.etLocationSearch.getText().toString();
+            }
+            
             String roomType = binding.actvRoomType.getText().toString();
             int cleanliness = (int) binding.sliderCleanliness.getValue();
             int social = (int) binding.sliderSocial.getValue();
