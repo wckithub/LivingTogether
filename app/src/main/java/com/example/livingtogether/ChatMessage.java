@@ -1,8 +1,8 @@
 package com.example.livingtogether;
 
 public class ChatMessage {
-    private String text;
-    private boolean isSentByMe;
+    private final String text;
+    private final boolean isSentByMe;
 
     public ChatMessage(String text, boolean isSentByMe) {
         this.text = text;
