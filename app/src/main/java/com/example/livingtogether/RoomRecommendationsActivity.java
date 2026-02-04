@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.livingtogether.databinding.ActivityRoomRecommendationsBinding;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class RoomRecommendationsActivity extends AppCompatActivity {
 
@@ -56,8 +55,9 @@ public class RoomRecommendationsActivity extends AppCompatActivity {
     private void filterRooms(float min, float max, String location, String type) {
         List<Room> filtered = new ArrayList<>();
         for (Room room : rooms) {
-            // Apply filtering logic based on preferences
+            // Apply filtering logic based on preferences (simplified)
             if (room.price >= min && room.price <= max) {
+                // You can add location and type matching here as well
                 filtered.add(room);
             }
         }
@@ -74,9 +74,12 @@ public class RoomRecommendationsActivity extends AppCompatActivity {
         Room room = rooms.get(currentRoomIndex);
         binding.recommendationCard.setVisibility(android.view.View.VISIBLE);
         
-        // Populate UI with real data
-        // For title, we use the room type as title in this view
-        // price, location, name etc.
+        // Update UI with room data (assuming these IDs exist in your updated XML)
+        binding.tvRoomType.setText(room.title);
+        binding.tvRoomPrice.setText(String.format(java.util.Locale.getDefault(), "NPR %d", room.price));
+        binding.tvOwnerName.setText(room.ownerName);
+        binding.tvRoomLocation.setText(room.location);
+        binding.tvRoomDesc.setText(room.desc);
     }
 
     private void showNextRoom() {
