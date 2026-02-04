@@ -62,7 +62,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/text_primary" />
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
