@@ -1,9 +1,9 @@
 package com.example.livingtogether;
 
 public class MatchModel {
-    private String name;
-    private String profilePicUrl;
-    private String roomName;
+    private final String name;
+    private final String profilePicUrl;
+    private final String roomName;
 
     public MatchModel(String name, String profilePicUrl, String roomName) {
         this.name = name;

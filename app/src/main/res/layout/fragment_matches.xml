@@ -22,7 +22,7 @@
         android:id="@+id/tv_empty_matches"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No matches yet. Keep exploring!"
+        android:text="@string/no_matches_yet"
         android:textColor="@color/text_secondary"
         android:textSize="16sp"
         android:visibility="gone"

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchViewHolder> {
 
-    private List<MatchModel> matchItems;
+    private final List<MatchModel> matchItems;
 
     public MatchesAdapter(List<MatchModel> matchItems) {
         this.matchItems = matchItems;
@@ -27,7 +27,6 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchVie
         MatchModel match = matchItems.get(position);
         holder.binding.tvMatchName.setText(match.getName());
         holder.binding.tvMatchRoom.setText(match.getRoomName());
-        // For real app, use Glide/Picasso to load match.getProfilePicUrl() into holder.binding.ivMatchProfile
     }
 
     @Override
@@ -36,7 +35,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchVie
     }
 
     public static class MatchViewHolder extends RecyclerView.ViewHolder {
-        ItemMatchBinding binding;
+        final ItemMatchBinding binding;
         public MatchViewHolder(ItemMatchBinding binding) {
             super(binding.getRoot());
             this.binding = binding;

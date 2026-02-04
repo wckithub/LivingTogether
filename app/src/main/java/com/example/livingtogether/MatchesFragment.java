@@ -29,11 +29,8 @@ public class MatchesFragment extends Fragment {
 
         binding.rvMatches.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Sample Data
-        List<MatchModel> matches = new ArrayList<>();
-        matches.add(new MatchModel("Suman Thapa", "", "Quiet room in Baneshwor"));
-        matches.add(new MatchModel("Anjali Rai", "", "Shared apartment in Patan"));
-        matches.add(new MatchModel("Kiran KC", "", "Single room near Thamel"));
+        // Initializing with sample data
+        List<MatchModel> matches = getSampleMatches();
 
         if (matches.isEmpty()) {
             binding.rvMatches.setVisibility(View.GONE);
@@ -44,6 +41,14 @@ public class MatchesFragment extends Fragment {
             MatchesAdapter adapter = new MatchesAdapter(matches);
             binding.rvMatches.setAdapter(adapter);
         }
+    }
+
+    private List<MatchModel> getSampleMatches() {
+        List<MatchModel> matches = new ArrayList<>();
+        matches.add(new MatchModel("Suman Thapa", "", "Quiet room in Baneshwor"));
+        matches.add(new MatchModel("Anjali Rai", "", "Shared apartment in Patan"));
+        matches.add(new MatchModel("Kiran KC", "", "Single room near Thamel"));
+        return matches;
     }
 
     @Override
