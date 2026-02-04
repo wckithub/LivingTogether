@@ -21,6 +21,10 @@
             android:value="${MAPS_API_KEY}" />
 
         <activity
+            android:name=".ChatDetailActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".RoomRecommendationsActivity"
             android:exported="false"
             android:label="@string/find_room_title" />

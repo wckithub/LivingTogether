@@ -3,7 +3,6 @@ package com.example.livingtogether;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,6 +17,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Set Home as default selection and ensure its view is visible
+        binding.bottomNavigation.setSelectedItemId(R.id.nav_home);
+        hideFragmentContainer();
 
         binding.btnBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
@@ -35,17 +38,17 @@ public class MainActivity extends AppCompatActivity {
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.nav_profile) {
-                startActivity(new Intent(this, UserProfileActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+            if (id == R.id.nav_home) {
+                hideFragmentContainer();
                 return true;
-            } else if (id == R.id.nav_messages) {
-                Toast.makeText(this, "Messages feature coming soon!", Toast.LENGTH_SHORT).show();
-                return false;
             } else if (id == R.id.nav_matches) {
                 loadFragment(new MatchesFragment());
                 return true;
-            } else if (id == R.id.nav_home) {
-                hideFragmentContainer();
+            } else if (id == R.id.nav_messages) {
+                loadFragment(new MessagesFragment());
+                return true;
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(this, UserProfileActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                 return true;
             }
             return false;
@@ -53,17 +56,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadFragment(Fragment fragment) {
-        // Hide the main dashboard scroll view and show the fragment container
+        // Hide dashboard content and show fragment container
         binding.mainContentScroll.setVisibility(View.GONE);
         binding.fragmentContainer.setVisibility(View.VISIBLE);
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 
     private void hideFragmentContainer() {
-        // Show the main dashboard scroll view and hide the fragment container
+        // Show dashboard content and hide fragment container
         binding.mainContentScroll.setVisibility(View.VISIBLE);
         binding.fragmentContainer.setVisibility(View.GONE);
     }
