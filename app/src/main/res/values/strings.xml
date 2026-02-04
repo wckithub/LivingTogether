@@ -150,6 +150,11 @@
     <string name="val_2">2</string>
     <string name="val_4">4</string>
 
+    <string name="cozy_room_thamel">Cozy Room in Thamel</string>
+    <string name="rent_amount_sample">Rs. 15,000/month</string>
+    <string name="notif_rohan">Rohan Sharma liked your room</string>
+    <string name="notif_priya">Priya Joshi liked your room</string>
+    <string name="sample_view_count">23</string>
     <string name="find_room_title">Find a Room</string>
     <string name="private_room_label">Private Room</string>
     <string name="room_price_sample">$1200</string>
