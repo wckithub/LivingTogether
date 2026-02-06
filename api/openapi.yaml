@@ -1,0 +1,4714 @@
+openapi: 3.0.3
+info:
+  description: API documentation for the Living Together application.
+  title: Living Together API
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /api/v1/listings/all/:
+    get:
+      description: GET /api/v1/listings/
+      operationId: listings_all_list
+      parameters:
+      - description: Number of results to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: The initial index from which to return the results.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedListingList"
+          description: ""
+      security:
+      - jwtAuth: []
+      - {}
+      tags:
+      - listings
+      x-accepts:
+      - application/json
+  /api/v1/listings/create/:
+    post:
+      operationId: listings_create_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ListingRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/ListingRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/ListingRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Listing"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - listings
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/listings/listing/{id}/:
+    get:
+      operationId: listings_listing_retrieve
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Listing"
+          description: ""
+      security:
+      - jwtAuth: []
+      - {}
+      tags:
+      - listings
+      x-accepts:
+      - application/json
+  /api/v1/listings/listing/{id}/delete/:
+    delete:
+      operationId: listings_listing_delete_destroy
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - listings
+      x-accepts:
+      - application/json
+  /api/v1/listings/listing/{id}/update:
+    patch:
+      operationId: listings_listing_update_partial_update
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatchedListingWriteRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/PatchedListingWriteRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/PatchedListingWriteRequest"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListingWrite"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - listings
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+    put:
+      operationId: listings_listing_update_update
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ListingWriteRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/ListingWriteRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/ListingWriteRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListingWrite"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - listings
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/listings/my-listings/:
+    get:
+      description: Get current user's listing
+      operationId: listings_my_listings_list
+      parameters:
+      - description: Number of results to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: The initial index from which to return the results.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedListingList"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - listings
+      x-accepts:
+      - application/json
+  /api/v1/matches/:
+    get:
+      description: |-
+        ViewSet for viewing matches
+
+        Actions:
+        - list: Get all matches for current user
+        - retrieve: Get match details
+        - discover: For seekers - discover new listings
+        - swipe: For seekers - swipe on a listing (like/skip)
+        - owner_matches: For owners - get seekers interested in their listings
+        - owner_action: For owners - like/reject a seeker
+        - stats: Get match statistics
+      operationId: matches_list
+      parameters:
+      - description: Number of results to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: The initial index from which to return the results.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedMatchListList"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - matches
+      x-accepts:
+      - application/json
+  /api/v1/matches/{id}/:
+    get:
+      description: |-
+        ViewSet for viewing matches
+
+        Actions:
+        - list: Get all matches for current user
+        - retrieve: Get match details
+        - discover: For seekers - discover new listings
+        - swipe: For seekers - swipe on a listing (like/skip)
+        - owner_matches: For owners - get seekers interested in their listings
+        - owner_action: For owners - like/reject a seeker
+        - stats: Get match statistics
+      operationId: matches_retrieve
+      parameters:
+      - description: A UUID string identifying this Match.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MatchDetail"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - matches
+      x-accepts:
+      - application/json
+  /api/v1/matches/discover/:
+    get:
+      description: |-
+        Seeker discovers new listings (Tinder-style swiping)
+
+        Query params:
+        - budget_min: minimum rent
+        - budget_max: maximum rent
+        - room_type: 'private', 'shared', or 'any'
+        - distance_km: search radius (overrides seeker preference)
+        - owner_gender: filter by owner gender
+        - min_match_score: minimum match score (0-100)
+      operationId: matches_discover_retrieve
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiscoverListing"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - matches
+      x-accepts:
+      - application/json
+  /api/v1/matches/owner_action/:
+    post:
+      description: |-
+        Owner takes action on a seeker (message/reject)
+
+        Request body:
+        {
+            "match_id": "uuid",
+            "action": "message" | "reject",
+            "notes": "optional notes"
+        }
+
+        IMPORTANT: Match becomes FINAL only when both sides choose "message".
+        Conversation is auto-created when mutual interest is confirmed.
+      operationId: matches_owner_action_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatchActionRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/MatchActionRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/MatchActionRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MatchAction"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - matches
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/matches/owner_matches/:
+    get:
+      description: Owner views seekers interested in their listings
+      operationId: matches_owner_matches_retrieve
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MatchList"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - matches
+      x-accepts:
+      - application/json
+  /api/v1/matches/stats/:
+    get:
+      description: Get match statistics for current user
+      operationId: matches_stats_retrieve
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MatchStats"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - matches
+      x-accepts:
+      - application/json
+  /api/v1/matches/swipe/:
+    post:
+      description: |-
+        Seeker swipes on a listing (message/pass)
+
+        Request body:
+        {
+            "listing_id": "uuid",
+            "action": "message" | "pass",
+            "notes": "optional notes"
+        }
+
+        IMPORTANT: Only records seeker interest. Match is NOT created yet.
+        Match is created only when owner replies with "message".
+      operationId: matches_swipe_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatchActionRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/MatchActionRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/MatchActionRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MatchAction"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - matches
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/messaging/conversations/:
+    get:
+      description: |-
+        ViewSet for managing conversations between matched users.
+
+        Endpoints:
+        - GET /api/v1/conversations/ - List all conversations for current user
+        - GET /api/v1/conversations/{id}/ - Get conversation details
+        - POST /api/v1/conversations/ - Create a new conversation
+        - DELETE /api/v1/conversations/{id}/ - Close a conversation
+        - GET /api/v1/conversations/stats/ - Get conversation statistics
+        - POST /api/v1/conversations/{id}/mark_as_read/ - Mark all messages as read
+      operationId: messaging_conversations_list
+      parameters:
+      - description: Number of results to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: The initial index from which to return the results.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Which field to use when ordering the results.
+        explode: true
+        in: query
+        name: ordering
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedConversationListList"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-accepts:
+      - application/json
+    post:
+      description: Create a new conversation from a match
+      operationId: messaging_conversations_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConversationDetailRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/ConversationDetailRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/ConversationDetailRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationDetail"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/messaging/conversations/{id}/:
+    delete:
+      description: Close/deactivate a conversation
+      operationId: messaging_conversations_destroy
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-accepts:
+      - application/json
+    get:
+      description: |-
+        ViewSet for managing conversations between matched users.
+
+        Endpoints:
+        - GET /api/v1/conversations/ - List all conversations for current user
+        - GET /api/v1/conversations/{id}/ - Get conversation details
+        - POST /api/v1/conversations/ - Create a new conversation
+        - DELETE /api/v1/conversations/{id}/ - Close a conversation
+        - GET /api/v1/conversations/stats/ - Get conversation statistics
+        - POST /api/v1/conversations/{id}/mark_as_read/ - Mark all messages as read
+      operationId: messaging_conversations_retrieve
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationDetail"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-accepts:
+      - application/json
+    patch:
+      description: |-
+        ViewSet for managing conversations between matched users.
+
+        Endpoints:
+        - GET /api/v1/conversations/ - List all conversations for current user
+        - GET /api/v1/conversations/{id}/ - Get conversation details
+        - POST /api/v1/conversations/ - Create a new conversation
+        - DELETE /api/v1/conversations/{id}/ - Close a conversation
+        - GET /api/v1/conversations/stats/ - Get conversation statistics
+        - POST /api/v1/conversations/{id}/mark_as_read/ - Mark all messages as read
+      operationId: messaging_conversations_partial_update
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatchedConversationDetailRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/PatchedConversationDetailRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/PatchedConversationDetailRequest"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationDetail"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+    put:
+      description: |-
+        ViewSet for managing conversations between matched users.
+
+        Endpoints:
+        - GET /api/v1/conversations/ - List all conversations for current user
+        - GET /api/v1/conversations/{id}/ - Get conversation details
+        - POST /api/v1/conversations/ - Create a new conversation
+        - DELETE /api/v1/conversations/{id}/ - Close a conversation
+        - GET /api/v1/conversations/stats/ - Get conversation statistics
+        - POST /api/v1/conversations/{id}/mark_as_read/ - Mark all messages as read
+      operationId: messaging_conversations_update
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConversationDetailRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/ConversationDetailRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/ConversationDetailRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationDetail"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/messaging/conversations/{id}/mark_as_read/:
+    post:
+      description: Mark all unread messages in a conversation as read
+      operationId: messaging_conversations_mark_as_read_create
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConversationDetailRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/ConversationDetailRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/ConversationDetailRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationDetail"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/messaging/conversations/stats/:
+    get:
+      description: Get conversation statistics for current user
+      operationId: messaging_conversations_stats_retrieve
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationDetail"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-accepts:
+      - application/json
+  /api/v1/messaging/messages/:
+    get:
+      description: |-
+        ViewSet for managing messages within conversations.
+
+        Endpoints:
+        - GET /api/v1/messages/ - List messages for a conversation
+        - POST /api/v1/messages/ - Create a new message
+        - GET /api/v1/messages/{id}/ - Get a specific message
+        - DELETE /api/v1/messages/{id}/ - Delete a message
+      operationId: messaging_messages_list
+      parameters:
+      - description: Number of results to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: The initial index from which to return the results.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Which field to use when ordering the results.
+        explode: true
+        in: query
+        name: ordering
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedMessageList"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-accepts:
+      - application/json
+    post:
+      description: Create a new message
+      operationId: messaging_messages_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MessageCreateRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/MessageCreateRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/MessageCreateRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageCreate"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/messaging/messages/{id}/:
+    delete:
+      description: Delete a message
+      operationId: messaging_messages_destroy
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-accepts:
+      - application/json
+    get:
+      description: |-
+        ViewSet for managing messages within conversations.
+
+        Endpoints:
+        - GET /api/v1/messages/ - List messages for a conversation
+        - POST /api/v1/messages/ - Create a new message
+        - GET /api/v1/messages/{id}/ - Get a specific message
+        - DELETE /api/v1/messages/{id}/ - Delete a message
+      operationId: messaging_messages_retrieve
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-accepts:
+      - application/json
+    patch:
+      description: |-
+        ViewSet for managing messages within conversations.
+
+        Endpoints:
+        - GET /api/v1/messages/ - List messages for a conversation
+        - POST /api/v1/messages/ - Create a new message
+        - GET /api/v1/messages/{id}/ - Get a specific message
+        - DELETE /api/v1/messages/{id}/ - Delete a message
+      operationId: messaging_messages_partial_update
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatchedMessageRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/PatchedMessageRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/PatchedMessageRequest"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+    put:
+      description: |-
+        ViewSet for managing messages within conversations.
+
+        Endpoints:
+        - GET /api/v1/messages/ - List messages for a conversation
+        - POST /api/v1/messages/ - Create a new message
+        - GET /api/v1/messages/{id}/ - Get a specific message
+        - DELETE /api/v1/messages/{id}/ - Delete a message
+      operationId: messaging_messages_update
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MessageRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/MessageRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/MessageRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/messaging/messages/{id}/mark_as_read/:
+    post:
+      description: Mark a single message as read
+      operationId: messaging_messages_mark_as_read_create
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MessageRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/MessageRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/MessageRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/messaging/notifications/:
+    get:
+      description: |-
+        ViewSet for viewing message notifications.
+
+        Endpoints:
+        - GET /api/v1/notifications/ - List notifications for current user
+        - GET /api/v1/notifications/{id}/ - Get a specific notification
+      operationId: messaging_notifications_list
+      parameters:
+      - description: Number of results to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: The initial index from which to return the results.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Which field to use when ordering the results.
+        explode: true
+        in: query
+        name: ordering
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedMessageNotificationList"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-accepts:
+      - application/json
+  /api/v1/messaging/notifications/{id}/:
+    get:
+      description: |-
+        ViewSet for viewing message notifications.
+
+        Endpoints:
+        - GET /api/v1/notifications/ - List notifications for current user
+        - GET /api/v1/notifications/{id}/ - Get a specific notification
+      operationId: messaging_notifications_retrieve
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageNotification"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-accepts:
+      - application/json
+  /api/v1/messaging/notifications/mark_all_as_read/:
+    post:
+      description: Mark all notifications as read
+      operationId: messaging_notifications_mark_all_as_read_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MessageNotificationRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/MessageNotificationRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/MessageNotificationRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageNotification"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/messaging/notifications/unread/:
+    get:
+      description: Get unread notifications
+      operationId: messaging_notifications_unread_retrieve
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageNotification"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - messaging
+      x-accepts:
+      - application/json
+  /api/v1/owners/become/:
+    post:
+      operationId: owners_become_create
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - owners
+      x-accepts:
+      - application/json
+  /api/v1/owners/check-status/:
+    get:
+      operationId: owners_check_status_retrieve
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - owners
+      x-accepts:
+      - application/json
+  /api/v1/owners/preferences/:
+    get:
+      operationId: owners_preferences_retrieve
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - owners
+      x-accepts:
+      - application/json
+    put:
+      operationId: owners_preferences_update
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - owners
+      x-accepts:
+      - application/json
+  /api/v1/owners/profile/:
+    get:
+      operationId: owners_profile_retrieve
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - owners
+      x-accepts:
+      - application/json
+  /api/v1/owners/profile/delete/:
+    delete:
+      operationId: owners_profile_delete_destroy
+      responses:
+        "204":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - owners
+      x-accepts:
+      - application/json
+  /api/v1/seekers/become/:
+    post:
+      operationId: seekers_become_create
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - seekers
+      x-accepts:
+      - application/json
+  /api/v1/seekers/check-status/:
+    get:
+      operationId: seekers_check_status_retrieve
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - seekers
+      x-accepts:
+      - application/json
+  /api/v1/seekers/preferences/:
+    get:
+      operationId: seekers_preferences_retrieve
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - seekers
+      x-accepts:
+      - application/json
+    put:
+      operationId: seekers_preferences_update
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - seekers
+      x-accepts:
+      - application/json
+  /api/v1/seekers/profile/:
+    get:
+      operationId: seekers_profile_retrieve
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - seekers
+      x-accepts:
+      - application/json
+  /api/v1/seekers/profile/delete/:
+    delete:
+      operationId: seekers_profile_delete_destroy
+      responses:
+        "204":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - seekers
+      x-accepts:
+      - application/json
+  /api/v1/users/check-verification/{email}/:
+    get:
+      operationId: users_check_verification_retrieve
+      parameters:
+      - explode: false
+        in: path
+        name: email
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      - {}
+      tags:
+      - users
+      x-accepts:
+      - application/json
+  /api/v1/users/login/:
+    post:
+      operationId: users_login_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLoginRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/UserLoginRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UserLoginRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserLogin"
+          description: ""
+      security:
+      - jwtAuth: []
+      - {}
+      tags:
+      - users
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/users/logout/:
+    post:
+      operationId: users_logout_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLogoutRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/UserLogoutRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UserLogoutRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserLogout"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - users
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/users/password-change/:
+    post:
+      operationId: users_password_change_create
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      tags:
+      - users
+      x-accepts:
+      - application/json
+  /api/v1/users/password-reset/confirm/{token}/:
+    post:
+      operationId: users_password_reset_confirm_create
+      parameters:
+      - explode: false
+        in: path
+        name: token
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      - {}
+      tags:
+      - users
+      x-accepts:
+      - application/json
+  /api/v1/users/password-reset/request/:
+    post:
+      operationId: users_password_reset_request_create
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      - {}
+      tags:
+      - users
+      x-accepts:
+      - application/json
+  /api/v1/users/profile/update/:
+    patch:
+      description: "Update user profile information (identity fields, not auth or\
+        \ preferences)"
+      operationId: users_profile_update_partial_update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatchedUserProfileUpdateRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/PatchedUserProfileUpdateRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/PatchedUserProfileUpdateRequest"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfileUpdate"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - users
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+    put:
+      description: "Update user profile information (identity fields, not auth or\
+        \ preferences)"
+      operationId: users_profile_update_update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserProfileUpdateRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/UserProfileUpdateRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UserProfileUpdateRequest"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfileUpdate"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - users
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/users/register/:
+    post:
+      operationId: users_register_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRegisterRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/UserRegisterRequest"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UserRegisterRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRegister"
+          description: ""
+      security:
+      - jwtAuth: []
+      - {}
+      tags:
+      - users
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/users/resend-verification/:
+    post:
+      operationId: users_resend_verification_create
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      - {}
+      tags:
+      - users
+      x-accepts:
+      - application/json
+  /api/v1/users/user/{id}/:
+    get:
+      operationId: users_user_retrieve
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+          description: ""
+      security:
+      - jwtAuth: []
+      tags:
+      - users
+      x-accepts:
+      - application/json
+  /api/v1/users/verify-email/{token}/:
+    get:
+      operationId: users_verify_email_retrieve
+      parameters:
+      - explode: false
+        in: path
+        name: token
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: No response body
+      security:
+      - jwtAuth: []
+      - {}
+      tags:
+      - users
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    ActorTypeEnum:
+      description: |-
+        * `seeker` - Seeker
+        * `owner` - Owner
+        * `system` - System
+      enum:
+      - seeker
+      - owner
+      - system
+      type: string
+    BlankEnum:
+      enum:
+      - ""
+      type: string
+    CleanlinessExpectationEnum:
+      description: |-
+        * `1` - Minimal (Very relaxed about cleanliness)
+        * `2` - Moderate (Some cleanliness standards)
+        * `3` - Clean (Regular cleaning expected)
+        * `4` - Very Clean (Strict cleanliness standards)
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      type: integer
+    ConversationDetail:
+      description: Detailed serializer for a single conversation with all messages
+      example:
+        participant2: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        participant1: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        other_participant: ""
+        participant1_details: ""
+        is_active: true
+        participant2_details: ""
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        match: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        messages:
+        - is_read: true
+          sender_details: ""
+          image: https://openapi-generator.tech
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          sender: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          recipient: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          created_at: 2000-01-23T04:56:07.000+00:00
+          recipient_details: ""
+          id: 6
+          conversation: 1
+          content: content
+        - is_read: true
+          sender_details: ""
+          image: https://openapi-generator.tech
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          sender: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          recipient: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          created_at: 2000-01-23T04:56:07.000+00:00
+          recipient_details: ""
+          id: 6
+          conversation: 1
+          content: content
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: 0
+        listing_info:
+          key: ""
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        match:
+          description: The match that initiated this conversation
+          format: uuid
+          type: string
+        participant1:
+          description: First participant (seeker)
+          format: uuid
+          readOnly: true
+          type: string
+        participant1_details:
+          allOf:
+          - $ref: "#/components/schemas/UserSimple"
+          readOnly: true
+        participant2:
+          description: Second participant (owner)
+          format: uuid
+          readOnly: true
+          type: string
+        participant2_details:
+          allOf:
+          - $ref: "#/components/schemas/UserSimple"
+          readOnly: true
+        other_participant:
+          allOf:
+          - $ref: "#/components/schemas/UserSimple"
+          readOnly: true
+        messages:
+          items:
+            $ref: "#/components/schemas/Message"
+          readOnly: true
+          type: array
+        listing_info:
+          additionalProperties: {}
+          readOnly: true
+          type: object
+        is_active:
+          description: Whether the conversation is still active
+          type: boolean
+        created_at:
+          description: When the conversation was created
+          format: date-time
+          readOnly: true
+          type: string
+        updated_at:
+          description: When the conversation was last updated
+          format: date-time
+          readOnly: true
+          type: string
+      required:
+      - created_at
+      - id
+      - listing_info
+      - match
+      - messages
+      - other_participant
+      - participant1
+      - participant1_details
+      - participant2
+      - participant2_details
+      - updated_at
+      type: object
+    ConversationDetailRequest:
+      description: Detailed serializer for a single conversation with all messages
+      example:
+        is_active: true
+        match: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        match:
+          description: The match that initiated this conversation
+          format: uuid
+          type: string
+        is_active:
+          description: Whether the conversation is still active
+          type: boolean
+      required:
+      - match
+      type: object
+    ConversationList:
+      description: Serializer for listing conversations
+      example:
+        unread_count: 6
+        listing_title: listing_title
+        other_participant: ""
+        is_active: true
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        match: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        created_at: 2000-01-23T04:56:07.000+00:00
+        last_message:
+          key: ""
+        id: 0
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        match:
+          description: The match that initiated this conversation
+          format: uuid
+          type: string
+        other_participant:
+          allOf:
+          - $ref: "#/components/schemas/UserSimple"
+          readOnly: true
+        last_message:
+          additionalProperties: {}
+          readOnly: true
+          type: object
+        unread_count:
+          readOnly: true
+          type: integer
+        listing_title:
+          readOnly: true
+          type: string
+        is_active:
+          description: Whether the conversation is still active
+          type: boolean
+        created_at:
+          description: When the conversation was created
+          format: date-time
+          readOnly: true
+          type: string
+        updated_at:
+          description: When the conversation was last updated
+          format: date-time
+          readOnly: true
+          type: string
+      required:
+      - created_at
+      - id
+      - last_message
+      - listing_title
+      - match
+      - other_participant
+      - unread_count
+      - updated_at
+      type: object
+    DiscoverListing:
+      description: Serializer for discovering listings (seeker's discovery view)
+      example:
+        owner: ""
+        match_score_percentage: match_score_percentage
+        distance_km: 6.027456183070403
+        match_score: 0.8008281904610115
+        listing: ""
+        match_reasons:
+        - ""
+        - ""
+      properties:
+        listing:
+          allOf:
+          - $ref: "#/components/schemas/ListingBasic"
+          readOnly: true
+        owner:
+          allOf:
+          - $ref: "#/components/schemas/OwnerBasic"
+          readOnly: true
+        match_score:
+          format: double
+          readOnly: true
+          type: number
+        match_score_percentage:
+          readOnly: true
+          type: string
+        match_reasons:
+          items: {}
+          readOnly: true
+          type: array
+        distance_km:
+          format: double
+          readOnly: true
+          type: number
+      required:
+      - distance_km
+      - listing
+      - match_reasons
+      - match_score
+      - match_score_percentage
+      - owner
+      type: object
+    GenderEnum:
+      description: |-
+        * `any` - Any
+        * `male` - Male
+        * `female` - Female
+        * `other` - Other
+        * `prefer_not_to_say` - Prefer not to say
+      enum:
+      - any
+      - male
+      - female
+      - other
+      - prefer_not_to_say
+      type: string
+    GuestPolicyEnum:
+      description: |-
+        * `1` - No Guests Allowed
+        * `2` - Occasional Guests (1-2 per month)
+        * `3` - Moderate Guests (1-2 per week)
+        * `4` - Frequent Guests (Anytime)
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      type: integer
+    Listing:
+      example:
+        short_description: short_description
+        amenities:
+        - amenities
+        - amenities
+        no_parties: true
+        room_size: 1.4658129805029452
+        house_rules:
+        - house_rules
+        - house_rules
+        available: true
+        occupied_rooms: 1175752406347165696
+        cleanliness_expectation: ""
+        title: title
+        rent: rent
+        quiet_hours: true
+        room_latitude: 0.8008281904610115
+        has_parking: true
+        interest_count: 9
+        current_roommates: ""
+        has_gym: true
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        views_count: 7
+        owner: ""
+        room_longitude: 6.027456183070403
+        images: images
+        address: address
+        has_ac: true
+        noise_tolerance: ""
+        guest_policy: ""
+        lease_duration: -4976680883935979520
+        long_description: long_description
+        no_smoking: true
+        has_laundry: true
+        no_pets: true
+        total_rooms: 1774823812569044992
+        deposit: deposit
+        has_wifi: true
+        has_kitchen: true
+        room_type: private
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        owner:
+          allOf:
+          - $ref: "#/components/schemas/RoomOwner"
+          readOnly: true
+        title:
+          maxLength: 200
+          type: string
+        address:
+          maxLength: 255
+          type: string
+        room_latitude:
+          format: double
+          nullable: true
+          type: number
+        room_longitude:
+          format: double
+          nullable: true
+          type: number
+        rent:
+          format: decimal
+          pattern: "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+          type: string
+        deposit:
+          format: decimal
+          nullable: true
+          pattern: "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+          type: string
+        room_type:
+          $ref: "#/components/schemas/RoomTypeEnum"
+        short_description:
+          maxLength: 300
+          type: string
+        long_description:
+          maxLength: 1000
+          type: string
+        images:
+          readOnly: true
+          type: string
+        has_wifi:
+          type: boolean
+        has_parking:
+          type: boolean
+        has_laundry:
+          type: boolean
+        has_kitchen:
+          type: boolean
+        has_ac:
+          type: boolean
+        has_gym:
+          type: boolean
+        amenities:
+          items:
+            type: string
+          readOnly: true
+          type: array
+        room_size:
+          format: double
+          nullable: true
+          type: number
+        no_smoking:
+          type: boolean
+        no_pets:
+          type: boolean
+        no_parties:
+          type: boolean
+        quiet_hours:
+          type: boolean
+        house_rules:
+          items:
+            type: string
+          readOnly: true
+          type: array
+        cleanliness_expectation:
+          allOf:
+          - $ref: "#/components/schemas/CleanlinessExpectationEnum"
+          description: |-
+            Expected cleanliness level (1=minimal to 4=very clean)
+
+            * `1` - Minimal (Very relaxed about cleanliness)
+            * `2` - Moderate (Some cleanliness standards)
+            * `3` - Clean (Regular cleaning expected)
+            * `4` - Very Clean (Strict cleanliness standards)
+          maximum: 9223372036854775807
+          minimum: 0
+        noise_tolerance:
+          allOf:
+          - $ref: "#/components/schemas/NoiseToleranceEnum"
+          description: |-
+            Owner's noise tolerance (1=loud to 4=silent)
+
+            * `1` - Very Quiet (Prefer silence/peace)
+            * `2` - Quiet (Some noise is OK)
+            * `3` - Moderate (Normal living noise)
+            * `4` - Lively (Active, music, gatherings)
+          maximum: 9223372036854775807
+          minimum: 0
+        guest_policy:
+          allOf:
+          - $ref: "#/components/schemas/GuestPolicyEnum"
+          description: |-
+            Owner's guest policy (1=very restrictive to 4=very open)
+
+            * `1` - No Guests Allowed
+            * `2` - Occasional Guests (1-2 per month)
+            * `3` - Moderate Guests (1-2 per week)
+            * `4` - Frequent Guests (Anytime)
+          maximum: 9223372036854775807
+          minimum: 0
+        total_rooms:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+        occupied_rooms:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+        current_roommates: {}
+        available:
+          type: boolean
+        lease_duration:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+        views_count:
+          readOnly: true
+          type: integer
+        interest_count:
+          readOnly: true
+          type: integer
+      required:
+      - amenities
+      - house_rules
+      - id
+      - images
+      - interest_count
+      - lease_duration
+      - long_description
+      - owner
+      - room_type
+      - title
+      - total_rooms
+      - views_count
+      type: object
+    ListingBasic:
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        title:
+          maxLength: 200
+          type: string
+        address:
+          maxLength: 255
+          type: string
+        room_latitude:
+          format: double
+          nullable: true
+          type: number
+        room_longitude:
+          format: double
+          nullable: true
+          type: number
+        rent:
+          format: decimal
+          pattern: "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+          type: string
+        deposit:
+          format: decimal
+          nullable: true
+          pattern: "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+          type: string
+        room_type:
+          $ref: "#/components/schemas/RoomTypeEnum"
+        short_description:
+          maxLength: 300
+          type: string
+        amenities:
+          readOnly: true
+          type: string
+        available_rooms_count:
+          readOnly: true
+          type: string
+        owner_name:
+          readOnly: true
+          type: string
+        available:
+          type: boolean
+      required:
+      - amenities
+      - available_rooms_count
+      - id
+      - owner_name
+      - room_type
+      - title
+      type: object
+    ListingRequest:
+      example:
+        short_description: short_description
+        no_parties: true
+        room_size: 1.4658129805029452
+        available: true
+        occupied_rooms: 1175752406347165696
+        cleanliness_expectation: ""
+        title: title
+        rent: rent
+        quiet_hours: true
+        room_latitude: 0.8008281904610115
+        has_parking: true
+        current_roommates: ""
+        has_gym: true
+        room_longitude: 6.027456183070403
+        address: address
+        has_ac: true
+        noise_tolerance: ""
+        guest_policy: ""
+        lease_duration: -4976680883935979520
+        long_description: long_description
+        no_smoking: true
+        has_laundry: true
+        no_pets: true
+        total_rooms: 1774823812569044992
+        deposit: deposit
+        has_wifi: true
+        has_kitchen: true
+        room_type: private
+      properties:
+        title:
+          maxLength: 200
+          minLength: 1
+          type: string
+        address:
+          maxLength: 255
+          type: string
+        room_latitude:
+          format: double
+          nullable: true
+          type: number
+        room_longitude:
+          format: double
+          nullable: true
+          type: number
+        rent:
+          format: decimal
+          pattern: "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+          type: string
+        deposit:
+          format: decimal
+          nullable: true
+          pattern: "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+          type: string
+        room_type:
+          $ref: "#/components/schemas/RoomTypeEnum"
+        short_description:
+          maxLength: 300
+          type: string
+        long_description:
+          maxLength: 1000
+          minLength: 1
+          type: string
+        has_wifi:
+          type: boolean
+        has_parking:
+          type: boolean
+        has_laundry:
+          type: boolean
+        has_kitchen:
+          type: boolean
+        has_ac:
+          type: boolean
+        has_gym:
+          type: boolean
+        room_size:
+          format: double
+          nullable: true
+          type: number
+        no_smoking:
+          type: boolean
+        no_pets:
+          type: boolean
+        no_parties:
+          type: boolean
+        quiet_hours:
+          type: boolean
+        cleanliness_expectation:
+          allOf:
+          - $ref: "#/components/schemas/CleanlinessExpectationEnum"
+          description: |-
+            Expected cleanliness level (1=minimal to 4=very clean)
+
+            * `1` - Minimal (Very relaxed about cleanliness)
+            * `2` - Moderate (Some cleanliness standards)
+            * `3` - Clean (Regular cleaning expected)
+            * `4` - Very Clean (Strict cleanliness standards)
+          maximum: 9223372036854775807
+          minimum: 0
+        noise_tolerance:
+          allOf:
+          - $ref: "#/components/schemas/NoiseToleranceEnum"
+          description: |-
+            Owner's noise tolerance (1=loud to 4=silent)
+
+            * `1` - Very Quiet (Prefer silence/peace)
+            * `2` - Quiet (Some noise is OK)
+            * `3` - Moderate (Normal living noise)
+            * `4` - Lively (Active, music, gatherings)
+          maximum: 9223372036854775807
+          minimum: 0
+        guest_policy:
+          allOf:
+          - $ref: "#/components/schemas/GuestPolicyEnum"
+          description: |-
+            Owner's guest policy (1=very restrictive to 4=very open)
+
+            * `1` - No Guests Allowed
+            * `2` - Occasional Guests (1-2 per month)
+            * `3` - Moderate Guests (1-2 per week)
+            * `4` - Frequent Guests (Anytime)
+          maximum: 9223372036854775807
+          minimum: 0
+        total_rooms:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+        occupied_rooms:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+        current_roommates: {}
+        available:
+          type: boolean
+        lease_duration:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+      required:
+      - lease_duration
+      - long_description
+      - room_type
+      - title
+      - total_rooms
+      type: object
+    ListingWrite:
+      example:
+        short_description: short_description
+        no_parties: true
+        room_size: 1.4658129805029452
+        available: true
+        occupied_rooms: 1175752406347165696
+        cleanliness_expectation: ""
+        title: title
+        rent: rent
+        quiet_hours: true
+        room_latitude: 0.8008281904610115
+        has_parking: true
+        interest_count: 9
+        current_roommates: ""
+        has_gym: true
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        views_count: 7
+        owner: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        room_longitude: 6.027456183070403
+        address: address
+        has_ac: true
+        noise_tolerance: ""
+        guest_policy: ""
+        lease_duration: -4976680883935979520
+        long_description: long_description
+        no_smoking: true
+        has_laundry: true
+        no_pets: true
+        total_rooms: 1774823812569044992
+        deposit: deposit
+        has_wifi: true
+        has_kitchen: true
+        room_type: private
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        owner:
+          format: uuid
+          readOnly: true
+          type: string
+        title:
+          maxLength: 200
+          type: string
+        address:
+          maxLength: 255
+          type: string
+        room_latitude:
+          format: double
+          nullable: true
+          type: number
+        room_longitude:
+          format: double
+          nullable: true
+          type: number
+        rent:
+          format: decimal
+          pattern: "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+          type: string
+        deposit:
+          format: decimal
+          nullable: true
+          pattern: "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+          type: string
+        room_type:
+          $ref: "#/components/schemas/RoomTypeEnum"
+        short_description:
+          maxLength: 300
+          type: string
+        long_description:
+          maxLength: 1000
+          type: string
+        has_wifi:
+          type: boolean
+        has_parking:
+          type: boolean
+        has_laundry:
+          type: boolean
+        has_kitchen:
+          type: boolean
+        has_ac:
+          type: boolean
+        has_gym:
+          type: boolean
+        room_size:
+          format: double
+          nullable: true
+          type: number
+        no_smoking:
+          type: boolean
+        no_pets:
+          type: boolean
+        no_parties:
+          type: boolean
+        quiet_hours:
+          type: boolean
+        cleanliness_expectation:
+          allOf:
+          - $ref: "#/components/schemas/CleanlinessExpectationEnum"
+          description: |-
+            Expected cleanliness level (1=minimal to 4=very clean)
+
+            * `1` - Minimal (Very relaxed about cleanliness)
+            * `2` - Moderate (Some cleanliness standards)
+            * `3` - Clean (Regular cleaning expected)
+            * `4` - Very Clean (Strict cleanliness standards)
+          maximum: 9223372036854775807
+          minimum: 0
+        noise_tolerance:
+          allOf:
+          - $ref: "#/components/schemas/NoiseToleranceEnum"
+          description: |-
+            Owner's noise tolerance (1=loud to 4=silent)
+
+            * `1` - Very Quiet (Prefer silence/peace)
+            * `2` - Quiet (Some noise is OK)
+            * `3` - Moderate (Normal living noise)
+            * `4` - Lively (Active, music, gatherings)
+          maximum: 9223372036854775807
+          minimum: 0
+        guest_policy:
+          allOf:
+          - $ref: "#/components/schemas/GuestPolicyEnum"
+          description: |-
+            Owner's guest policy (1=very restrictive to 4=very open)
+
+            * `1` - No Guests Allowed
+            * `2` - Occasional Guests (1-2 per month)
+            * `3` - Moderate Guests (1-2 per week)
+            * `4` - Frequent Guests (Anytime)
+          maximum: 9223372036854775807
+          minimum: 0
+        total_rooms:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+        occupied_rooms:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+        current_roommates: {}
+        available:
+          type: boolean
+        lease_duration:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+        views_count:
+          readOnly: true
+          type: integer
+        interest_count:
+          readOnly: true
+          type: integer
+      required:
+      - id
+      - interest_count
+      - lease_duration
+      - long_description
+      - owner
+      - room_type
+      - title
+      - total_rooms
+      - views_count
+      type: object
+    ListingWriteRequest:
+      example:
+        short_description: short_description
+        no_parties: true
+        room_size: 1.4658129805029452
+        available: true
+        occupied_rooms: 1175752406347165696
+        cleanliness_expectation: ""
+        title: title
+        rent: rent
+        quiet_hours: true
+        room_latitude: 0.8008281904610115
+        has_parking: true
+        current_roommates: ""
+        has_gym: true
+        room_longitude: 6.027456183070403
+        address: address
+        has_ac: true
+        noise_tolerance: ""
+        guest_policy: ""
+        lease_duration: -4976680883935979520
+        long_description: long_description
+        no_smoking: true
+        has_laundry: true
+        no_pets: true
+        total_rooms: 1774823812569044992
+        deposit: deposit
+        has_wifi: true
+        has_kitchen: true
+        room_type: private
+      properties:
+        title:
+          maxLength: 200
+          minLength: 1
+          type: string
+        address:
+          maxLength: 255
+          type: string
+        room_latitude:
+          format: double
+          nullable: true
+          type: number
+        room_longitude:
+          format: double
+          nullable: true
+          type: number
+        rent:
+          format: decimal
+          pattern: "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+          type: string
+        deposit:
+          format: decimal
+          nullable: true
+          pattern: "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+          type: string
+        room_type:
+          $ref: "#/components/schemas/RoomTypeEnum"
+        short_description:
+          maxLength: 300
+          type: string
+        long_description:
+          maxLength: 1000
+          minLength: 1
+          type: string
+        has_wifi:
+          type: boolean
+        has_parking:
+          type: boolean
+        has_laundry:
+          type: boolean
+        has_kitchen:
+          type: boolean
+        has_ac:
+          type: boolean
+        has_gym:
+          type: boolean
+        room_size:
+          format: double
+          nullable: true
+          type: number
+        no_smoking:
+          type: boolean
+        no_pets:
+          type: boolean
+        no_parties:
+          type: boolean
+        quiet_hours:
+          type: boolean
+        cleanliness_expectation:
+          allOf:
+          - $ref: "#/components/schemas/CleanlinessExpectationEnum"
+          description: |-
+            Expected cleanliness level (1=minimal to 4=very clean)
+
+            * `1` - Minimal (Very relaxed about cleanliness)
+            * `2` - Moderate (Some cleanliness standards)
+            * `3` - Clean (Regular cleaning expected)
+            * `4` - Very Clean (Strict cleanliness standards)
+          maximum: 9223372036854775807
+          minimum: 0
+        noise_tolerance:
+          allOf:
+          - $ref: "#/components/schemas/NoiseToleranceEnum"
+          description: |-
+            Owner's noise tolerance (1=loud to 4=silent)
+
+            * `1` - Very Quiet (Prefer silence/peace)
+            * `2` - Quiet (Some noise is OK)
+            * `3` - Moderate (Normal living noise)
+            * `4` - Lively (Active, music, gatherings)
+          maximum: 9223372036854775807
+          minimum: 0
+        guest_policy:
+          allOf:
+          - $ref: "#/components/schemas/GuestPolicyEnum"
+          description: |-
+            Owner's guest policy (1=very restrictive to 4=very open)
+
+            * `1` - No Guests Allowed
+            * `2` - Occasional Guests (1-2 per month)
+            * `3` - Moderate Guests (1-2 per week)
+            * `4` - Frequent Guests (Anytime)
+          maximum: 9223372036854775807
+          minimum: 0
+        total_rooms:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+        occupied_rooms:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+        current_roommates: {}
+        available:
+          type: boolean
+        lease_duration:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+      required:
+      - lease_duration
+      - long_description
+      - room_type
+      - title
+      - total_rooms
+      type: object
+    MatchAction:
+      description: Serializer for seeker/owner actions on matches
+      example:
+        notes: notes
+        action: message
+      properties:
+        action:
+          $ref: "#/components/schemas/MatchActionActionEnum"
+        notes:
+          maxLength: 500
+          type: string
+      required:
+      - action
+      type: object
+    MatchActionActionEnum:
+      description: |-
+        * `message` - message
+        * `pass` - pass
+        * `reject` - reject
+      enum:
+      - message
+      - pass
+      - reject
+      type: string
+    MatchActionRequest:
+      description: Serializer for seeker/owner actions on matches
+      example:
+        notes: notes
+        action: message
+      properties:
+        action:
+          $ref: "#/components/schemas/MatchActionActionEnum"
+        notes:
+          maxLength: 500
+          type: string
+      required:
+      - action
+      type: object
+    MatchDetail:
+      description: Detailed serializer for match with history
+      example:
+        owner: ""
+        status_display: status_display
+        owner_notes: owner_notes
+        created_at: 2000-01-23T04:56:07.000+00:00
+        match_score: 0.8008281904610115
+        owner_action: message
+        history:
+        - actor_type: ""
+          action: ""
+          created_at: 2000-01-23T04:56:07.000+00:00
+          details: ""
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          action_display: action_display
+        - actor_type: ""
+          action: ""
+          created_at: 2000-01-23T04:56:07.000+00:00
+          details: ""
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          action_display: action_display
+        booking_timestamp: 2000-01-23T04:56:07.000+00:00
+        seeker_notes: seeker_notes
+        match_score_percentage: match_score_percentage
+        owner_action_timestamp: 2000-01-23T04:56:07.000+00:00
+        seeker_action: message
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        seeker_action_timestamp: 2000-01-23T04:56:07.000+00:00
+        last_message_timestamp: 2000-01-23T04:56:07.000+00:00
+        seeker: ""
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        listing: ""
+        status: ""
+        match_reasons: ""
+        meeting_scheduled_timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        seeker:
+          allOf:
+          - $ref: "#/components/schemas/SeekerBasic"
+          readOnly: true
+        listing:
+          allOf:
+          - $ref: "#/components/schemas/ListingBasic"
+          readOnly: true
+        owner:
+          allOf:
+          - $ref: "#/components/schemas/OwnerBasic"
+          readOnly: true
+        status:
+          allOf:
+          - $ref: "#/components/schemas/StatusEnum"
+          description: |-
+            Current status of the match
+
+            * `pending` - Pending
+            * `discovered` - Discovered
+            * `interested` - Interested
+            * `rejected` - Rejected
+            * `owner_viewed` - Owner Viewed
+            * `owner_interested` - Owner Interested
+            * `owner_rejected` - Owner Rejected
+            * `mutual_interested` - Mutual Interested
+            * `messaging` - Messaging
+            * `meeting_scheduled` - Meeting Scheduled
+            * `listing_booked` - Listing Booked
+            * `expired` - Expired
+          readOnly: true
+        status_display:
+          readOnly: true
+          type: string
+        match_score:
+          description: Algorithmic match score (0-100)
+          format: double
+          readOnly: true
+          type: number
+        match_score_percentage:
+          readOnly: true
+          type: string
+        match_reasons:
+          description: List of reasons why this is a good match
+          readOnly: true
+        seeker_action:
+          description: |-
+            Seeker's action (message/pass)
+
+            * `message` - Message
+            * `pass` - Pass
+          enum:
+          - message
+          - pass
+          - ""
+          - null
+          nullable: true
+          type: string
+        seeker_action_timestamp:
+          description: When seeker took action
+          format: date-time
+          nullable: true
+          type: string
+        seeker_notes:
+          description: Seeker's private notes about this listing
+          nullable: true
+          type: string
+        owner_action:
+          description: |-
+            Owner's action (message/reject)
+
+            * `message` - Message
+            * `reject` - Reject
+          enum:
+          - message
+          - reject
+          - ""
+          - null
+          nullable: true
+          type: string
+        owner_action_timestamp:
+          description: When owner took action
+          format: date-time
+          nullable: true
+          type: string
+        owner_notes:
+          description: Owner's private notes about this seeker
+          nullable: true
+          type: string
+        last_message_timestamp:
+          description: Timestamp of last message in this match
+          format: date-time
+          nullable: true
+          type: string
+        meeting_scheduled_timestamp:
+          description: When the meeting is scheduled
+          format: date-time
+          nullable: true
+          type: string
+        booking_timestamp:
+          description: When the listing was booked
+          format: date-time
+          nullable: true
+          type: string
+        history:
+          items:
+            $ref: "#/components/schemas/MatchHistory"
+          readOnly: true
+          type: array
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+      required:
+      - created_at
+      - history
+      - id
+      - listing
+      - match_reasons
+      - match_score
+      - match_score_percentage
+      - owner
+      - seeker
+      - status
+      - status_display
+      - updated_at
+      type: object
+    MatchHistory:
+      example:
+        actor_type: ""
+        action: ""
+        created_at: 2000-01-23T04:56:07.000+00:00
+        details: ""
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        action_display: action_display
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        action:
+          allOf:
+          - $ref: "#/components/schemas/MatchHistoryActionEnum"
+          description: |-
+            Type of action
+
+            * `seeker_message` - Seeker Sent Message
+            * `seeker_pass` - Seeker Passed
+            * `seeker_visit_profile` - Seeker Visited Profile
+            * `owner_view_seeker` - Owner Viewed Seeker
+            * `owner_message` - Owner Sent Message
+            * `owner_reject` - Owner Rejected Seeker
+            * `message_sent` - Message Sent
+            * `meeting_proposed` - Meeting Proposed
+            * `meeting_confirmed` - Meeting Confirmed
+            * `booking_initiated` - Booking Initiated
+            * `booking_completed` - Booking Completed
+            * `status_changed` - Status Changed
+        action_display:
+          readOnly: true
+          type: string
+        actor_type:
+          allOf:
+          - $ref: "#/components/schemas/ActorTypeEnum"
+          description: |-
+            Who performed the action
+
+            * `seeker` - Seeker
+            * `owner` - Owner
+            * `system` - System
+        details:
+          description: Additional details about the action
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+      required:
+      - action
+      - action_display
+      - actor_type
+      - created_at
+      - id
+      type: object
+    MatchHistoryActionEnum:
+      description: |-
+        * `seeker_message` - Seeker Sent Message
+        * `seeker_pass` - Seeker Passed
+        * `seeker_visit_profile` - Seeker Visited Profile
+        * `owner_view_seeker` - Owner Viewed Seeker
+        * `owner_message` - Owner Sent Message
+        * `owner_reject` - Owner Rejected Seeker
+        * `message_sent` - Message Sent
+        * `meeting_proposed` - Meeting Proposed
+        * `meeting_confirmed` - Meeting Confirmed
+        * `booking_initiated` - Booking Initiated
+        * `booking_completed` - Booking Completed
+        * `status_changed` - Status Changed
+      enum:
+      - seeker_message
+      - seeker_pass
+      - seeker_visit_profile
+      - owner_view_seeker
+      - owner_message
+      - owner_reject
+      - message_sent
+      - meeting_proposed
+      - meeting_confirmed
+      - booking_initiated
+      - booking_completed
+      - status_changed
+      type: string
+    MatchList:
+      description: Serializer for listing matches to seeker
+      example:
+        owner: ""
+        status_display: status_display
+        owner_notes: owner_notes
+        created_at: 2000-01-23T04:56:07.000+00:00
+        match_score: 0.8008281904610115
+        owner_action: message
+        seeker_notes: seeker_notes
+        match_score_percentage: match_score_percentage
+        seeker_action: message
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        seeker: ""
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        listing: ""
+        status: ""
+        match_reasons: ""
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        seeker:
+          allOf:
+          - $ref: "#/components/schemas/SeekerBasic"
+          readOnly: true
+        listing:
+          allOf:
+          - $ref: "#/components/schemas/ListingBasic"
+          readOnly: true
+        owner:
+          allOf:
+          - $ref: "#/components/schemas/OwnerBasic"
+          readOnly: true
+        status:
+          allOf:
+          - $ref: "#/components/schemas/StatusEnum"
+          description: |-
+            Current status of the match
+
+            * `pending` - Pending
+            * `discovered` - Discovered
+            * `interested` - Interested
+            * `rejected` - Rejected
+            * `owner_viewed` - Owner Viewed
+            * `owner_interested` - Owner Interested
+            * `owner_rejected` - Owner Rejected
+            * `mutual_interested` - Mutual Interested
+            * `messaging` - Messaging
+            * `meeting_scheduled` - Meeting Scheduled
+            * `listing_booked` - Listing Booked
+            * `expired` - Expired
+          readOnly: true
+        status_display:
+          readOnly: true
+          type: string
+        match_score:
+          description: Algorithmic match score (0-100)
+          format: double
+          readOnly: true
+          type: number
+        match_score_percentage:
+          readOnly: true
+          type: string
+        match_reasons:
+          description: List of reasons why this is a good match
+          readOnly: true
+        seeker_action:
+          description: |-
+            Seeker's action (message/pass)
+
+            * `message` - Message
+            * `pass` - Pass
+          enum:
+          - message
+          - pass
+          - ""
+          - null
+          nullable: true
+          type: string
+        seeker_notes:
+          description: Seeker's private notes about this listing
+          nullable: true
+          type: string
+        owner_action:
+          description: |-
+            Owner's action (message/reject)
+
+            * `message` - Message
+            * `reject` - Reject
+          enum:
+          - message
+          - reject
+          - ""
+          - null
+          nullable: true
+          type: string
+        owner_notes:
+          description: Owner's private notes about this seeker
+          nullable: true
+          type: string
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+      required:
+      - created_at
+      - id
+      - listing
+      - match_reasons
+      - match_score
+      - match_score_percentage
+      - owner
+      - seeker
+      - status
+      - status_display
+      - updated_at
+      type: object
+    MatchStats:
+      description: Stats about matches
+      example:
+        discovered: 6
+        booked: 2
+        rejected: 7
+        interested: 1
+        mutual_interested: 5
+        total_matches: 0
+        messaging: 5
+      properties:
+        total_matches:
+          type: integer
+        discovered:
+          type: integer
+        interested:
+          type: integer
+        mutual_interested:
+          type: integer
+        messaging:
+          type: integer
+        booked:
+          type: integer
+        rejected:
+          type: integer
+      required:
+      - booked
+      - discovered
+      - interested
+      - messaging
+      - mutual_interested
+      - rejected
+      - total_matches
+      type: object
+    Message:
+      description: Serializer for individual messages
+      example:
+        is_read: true
+        sender_details: ""
+        image: https://openapi-generator.tech
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        sender: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        recipient: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        created_at: 2000-01-23T04:56:07.000+00:00
+        recipient_details: ""
+        id: 6
+        conversation: 1
+        content: content
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        conversation:
+          description: The conversation this message belongs to
+          type: integer
+        sender:
+          description: User who sent the message
+          format: uuid
+          readOnly: true
+          type: string
+        sender_details:
+          allOf:
+          - $ref: "#/components/schemas/UserSimple"
+          readOnly: true
+        recipient:
+          description: User who receives the message
+          format: uuid
+          type: string
+        recipient_details:
+          allOf:
+          - $ref: "#/components/schemas/UserSimple"
+          readOnly: true
+        content:
+          readOnly: true
+          type: string
+        image:
+          description: Optional image attached to message
+          format: uri
+          nullable: true
+          type: string
+        is_read:
+          description: Whether the recipient has read this message
+          type: boolean
+        created_at:
+          description: When the message was sent
+          format: date-time
+          readOnly: true
+          type: string
+        updated_at:
+          description: When the message was last updated
+          format: date-time
+          readOnly: true
+          type: string
+      required:
+      - content
+      - conversation
+      - created_at
+      - id
+      - recipient
+      - recipient_details
+      - sender
+      - sender_details
+      - updated_at
+      type: object
+    MessageCreate:
+      description: Serializer for creating new messages
+      example:
+        image: https://openapi-generator.tech
+        content: content
+      properties:
+        content:
+          description: The message content
+          type: string
+        image:
+          description: Optional image attached to message
+          format: uri
+          nullable: true
+          type: string
+      required:
+      - content
+      type: object
+    MessageCreateRequest:
+      description: Serializer for creating new messages
+      example:
+        image: ""
+        content: content
+      properties:
+        content:
+          description: The message content
+          minLength: 1
+          type: string
+        image:
+          description: Optional image attached to message
+          format: binary
+          nullable: true
+          type: string
+      required:
+      - content
+      type: object
+    MessageNotification:
+      description: Serializer for message notifications
+      example:
+        notification_type: ""
+        email_sent: true
+        email_sent_at: 2000-01-23T04:56:07.000+00:00
+        in_app_read: true
+        message_details: ""
+        read_at: 2000-01-23T04:56:07.000+00:00
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: 0
+        message: 6
+        user: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        message:
+          description: The message this notification is for
+          type: integer
+        message_details:
+          allOf:
+          - $ref: "#/components/schemas/Message"
+          readOnly: true
+        user:
+          description: The user receiving the notification
+          format: uuid
+          type: string
+        notification_type:
+          allOf:
+          - $ref: "#/components/schemas/NotificationTypeEnum"
+          description: |-
+            Type of notification sent
+
+            * `email` - Email
+            * `in_app` - In-App
+            * `both` - Both
+        email_sent:
+          description: Whether email notification was sent
+          readOnly: true
+          type: boolean
+        email_sent_at:
+          description: When email was sent
+          format: date-time
+          nullable: true
+          readOnly: true
+          type: string
+        in_app_read:
+          description: Whether in-app notification was read
+          type: boolean
+        read_at:
+          description: When notification was read
+          format: date-time
+          nullable: true
+          type: string
+        created_at:
+          description: When notification was created
+          format: date-time
+          readOnly: true
+          type: string
+      required:
+      - created_at
+      - email_sent
+      - email_sent_at
+      - id
+      - message
+      - message_details
+      - user
+      type: object
+    MessageNotificationRequest:
+      description: Serializer for message notifications
+      example:
+        notification_type: ""
+        in_app_read: true
+        read_at: 2000-01-23T04:56:07.000+00:00
+        message: 0
+        user: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        message:
+          description: The message this notification is for
+          type: integer
+        user:
+          description: The user receiving the notification
+          format: uuid
+          type: string
+        notification_type:
+          allOf:
+          - $ref: "#/components/schemas/NotificationTypeEnum"
+          description: |-
+            Type of notification sent
+
+            * `email` - Email
+            * `in_app` - In-App
+            * `both` - Both
+        in_app_read:
+          description: Whether in-app notification was read
+          type: boolean
+        read_at:
+          description: When notification was read
+          format: date-time
+          nullable: true
+          type: string
+      required:
+      - message
+      - user
+      type: object
+    MessageRequest:
+      description: Serializer for individual messages
+      example:
+        is_read: true
+        image: ""
+        recipient: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        conversation: 0
+      properties:
+        conversation:
+          description: The conversation this message belongs to
+          type: integer
+        recipient:
+          description: User who receives the message
+          format: uuid
+          type: string
+        image:
+          description: Optional image attached to message
+          format: binary
+          nullable: true
+          type: string
+        is_read:
+          description: Whether the recipient has read this message
+          type: boolean
+      required:
+      - conversation
+      - recipient
+      type: object
+    NoiseToleranceEnum:
+      description: |-
+        * `1` - Very Quiet (Prefer silence/peace)
+        * `2` - Quiet (Some noise is OK)
+        * `3` - Moderate (Normal living noise)
+        * `4` - Lively (Active, music, gatherings)
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      type: integer
+    NotificationTypeEnum:
+      description: |-
+        * `email` - Email
+        * `in_app` - In-App
+        * `both` - Both
+      enum:
+      - email
+      - in_app
+      - both
+      type: string
+    NullEnum:
+      enum:
+      - null
+      type: string
+    OwnerActionEnum:
+      description: |-
+        * `message` - Message
+        * `reject` - Reject
+      enum:
+      - message
+      - reject
+      type: string
+    OwnerBasic:
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        user:
+          allOf:
+          - $ref: "#/components/schemas/UserBasic"
+          readOnly: true
+        age:
+          readOnly: true
+          type: integer
+        is_verified:
+          type: boolean
+      required:
+      - age
+      - id
+      - user
+      type: object
+    OwnerPreferences:
+      description: Serializer for owner preferences
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        preferred_gender:
+          allOf:
+          - $ref: "#/components/schemas/PreferredGenderEnum"
+          description: |-
+            Preferred gender of seeker
+
+            * `any` - Any
+            * `male` - Male
+            * `female` - Female
+            * `other` - Other
+            * `prefer_not_to_say` - Prefer not to say
+        preferred_age_min:
+          description: Minimum age preference
+          format: int64
+          maximum: 9223372036854775807
+          minimum: 0
+          nullable: true
+          type: integer
+        preferred_age_max:
+          description: Maximum age preference
+          format: int64
+          maximum: 9223372036854775807
+          minimum: 0
+          nullable: true
+          type: integer
+        accepts_smokers:
+          description: OK with seekers who smoke?
+          type: boolean
+        accepts_drinkers:
+          description: OK with seekers who drink?
+          type: boolean
+        accepts_pets:
+          description: OK with seekers who have pets?
+          type: boolean
+        accepts_couples:
+          description: OK with couples?
+          type: boolean
+        cleanliness_expectation:
+          allOf:
+          - $ref: "#/components/schemas/CleanlinessExpectationEnum"
+          description: |-
+            Expected cleanliness level from seeker (1-4 scale)
+
+            * `1` - Minimal (Very relaxed about cleanliness)
+            * `2` - Moderate (Some cleanliness standards)
+            * `3` - Clean (Regular cleaning expected)
+            * `4` - Very Clean (Strict cleanliness standards)
+          maximum: 9223372036854775807
+          minimum: 0
+        noise_tolerance:
+          allOf:
+          - $ref: "#/components/schemas/NoiseToleranceEnum"
+          description: |-
+            How much noise can owner tolerate? (1-4 scale)
+
+            * `1` - Very Quiet (Prefer silence/peace)
+            * `2` - Quiet (Some noise is OK)
+            * `3` - Moderate (Normal living noise)
+            * `4` - Lively (Active, music, gatherings)
+          maximum: 9223372036854775807
+          minimum: 0
+        guest_policy:
+          allOf:
+          - $ref: "#/components/schemas/GuestPolicyEnum"
+          description: |-
+            Guest policy for seeker (1-4 scale)
+
+            * `1` - No Guests Allowed
+            * `2` - Occasional Guests (1-2 per month)
+            * `3` - Moderate Guests (1-2 per week)
+            * `4` - Frequent Guests (Anytime)
+          maximum: 9223372036854775807
+          minimum: 0
+        prefers_employed:
+          description: Prefer employed seekers?
+          type: boolean
+        prefers_student:
+          description: Prefer student seekers?
+          type: boolean
+        additional_requirements:
+          description: Any other requirements or notes
+          nullable: true
+          type: string
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+      required:
+      - created_at
+      - id
+      - updated_at
+      type: object
+    OwnerPreferencesRequest:
+      description: Serializer for owner preferences
+      properties:
+        preferred_gender:
+          allOf:
+          - $ref: "#/components/schemas/PreferredGenderEnum"
+          description: |-
+            Preferred gender of seeker
+
+            * `any` - Any
+            * `male` - Male
+            * `female` - Female
+            * `other` - Other
+            * `prefer_not_to_say` - Prefer not to say
+        preferred_age_min:
+          description: Minimum age preference
+          format: int64
+          maximum: 9223372036854775807
+          minimum: 0
+          nullable: true
+          type: integer
+        preferred_age_max:
+          description: Maximum age preference
+          format: int64
+          maximum: 9223372036854775807
+          minimum: 0
+          nullable: true
+          type: integer
+        accepts_smokers:
+          description: OK with seekers who smoke?
+          type: boolean
+        accepts_drinkers:
+          description: OK with seekers who drink?
+          type: boolean
+        accepts_pets:
+          description: OK with seekers who have pets?
+          type: boolean
+        accepts_couples:
+          description: OK with couples?
+          type: boolean
+        cleanliness_expectation:
+          allOf:
+          - $ref: "#/components/schemas/CleanlinessExpectationEnum"
+          description: |-
+            Expected cleanliness level from seeker (1-4 scale)
+
+            * `1` - Minimal (Very relaxed about cleanliness)
+            * `2` - Moderate (Some cleanliness standards)
+            * `3` - Clean (Regular cleaning expected)
+            * `4` - Very Clean (Strict cleanliness standards)
+          maximum: 9223372036854775807
+          minimum: 0
+        noise_tolerance:
+          allOf:
+          - $ref: "#/components/schemas/NoiseToleranceEnum"
+          description: |-
+            How much noise can owner tolerate? (1-4 scale)
+
+            * `1` - Very Quiet (Prefer silence/peace)
+            * `2` - Quiet (Some noise is OK)
+            * `3` - Moderate (Normal living noise)
+            * `4` - Lively (Active, music, gatherings)
+          maximum: 9223372036854775807
+          minimum: 0
+        guest_policy:
+          allOf:
+          - $ref: "#/components/schemas/GuestPolicyEnum"
+          description: |-
+            Guest policy for seeker (1-4 scale)
+
+            * `1` - No Guests Allowed
+            * `2` - Occasional Guests (1-2 per month)
+            * `3` - Moderate Guests (1-2 per week)
+            * `4` - Frequent Guests (Anytime)
+          maximum: 9223372036854775807
+          minimum: 0
+        prefers_employed:
+          description: Prefer employed seekers?
+          type: boolean
+        prefers_student:
+          description: Prefer student seekers?
+          type: boolean
+        additional_requirements:
+          description: Any other requirements or notes
+          nullable: true
+          type: string
+      type: object
+    PaginatedConversationListList:
+      example:
+        next: http://api.example.org/accounts/?offset=400&limit=100
+        previous: http://api.example.org/accounts/?offset=200&limit=100
+        count: 123
+        results:
+        - unread_count: 6
+          listing_title: listing_title
+          other_participant: ""
+          is_active: true
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          match: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          created_at: 2000-01-23T04:56:07.000+00:00
+          last_message:
+            key: ""
+          id: 0
+        - unread_count: 6
+          listing_title: listing_title
+          other_participant: ""
+          is_active: true
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          match: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          created_at: 2000-01-23T04:56:07.000+00:00
+          last_message:
+            key: ""
+          id: 0
+      properties:
+        count:
+          example: 123
+          type: integer
+        next:
+          example: http://api.example.org/accounts/?offset=400&limit=100
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          example: http://api.example.org/accounts/?offset=200&limit=100
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: "#/components/schemas/ConversationList"
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    PaginatedListingList:
+      example:
+        next: http://api.example.org/accounts/?offset=400&limit=100
+        previous: http://api.example.org/accounts/?offset=200&limit=100
+        count: 123
+        results:
+        - short_description: short_description
+          amenities:
+          - amenities
+          - amenities
+          no_parties: true
+          room_size: 1.4658129805029452
+          house_rules:
+          - house_rules
+          - house_rules
+          available: true
+          occupied_rooms: 1175752406347165696
+          cleanliness_expectation: ""
+          title: title
+          rent: rent
+          quiet_hours: true
+          room_latitude: 0.8008281904610115
+          has_parking: true
+          interest_count: 9
+          current_roommates: ""
+          has_gym: true
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          views_count: 7
+          owner: ""
+          room_longitude: 6.027456183070403
+          images: images
+          address: address
+          has_ac: true
+          noise_tolerance: ""
+          guest_policy: ""
+          lease_duration: -4976680883935979520
+          long_description: long_description
+          no_smoking: true
+          has_laundry: true
+          no_pets: true
+          total_rooms: 1774823812569044992
+          deposit: deposit
+          has_wifi: true
+          has_kitchen: true
+          room_type: private
+        - short_description: short_description
+          amenities:
+          - amenities
+          - amenities
+          no_parties: true
+          room_size: 1.4658129805029452
+          house_rules:
+          - house_rules
+          - house_rules
+          available: true
+          occupied_rooms: 1175752406347165696
+          cleanliness_expectation: ""
+          title: title
+          rent: rent
+          quiet_hours: true
+          room_latitude: 0.8008281904610115
+          has_parking: true
+          interest_count: 9
+          current_roommates: ""
+          has_gym: true
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          views_count: 7
+          owner: ""
+          room_longitude: 6.027456183070403
+          images: images
+          address: address
+          has_ac: true
+          noise_tolerance: ""
+          guest_policy: ""
+          lease_duration: -4976680883935979520
+          long_description: long_description
+          no_smoking: true
+          has_laundry: true
+          no_pets: true
+          total_rooms: 1774823812569044992
+          deposit: deposit
+          has_wifi: true
+          has_kitchen: true
+          room_type: private
+      properties:
+        count:
+          example: 123
+          type: integer
+        next:
+          example: http://api.example.org/accounts/?offset=400&limit=100
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          example: http://api.example.org/accounts/?offset=200&limit=100
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: "#/components/schemas/Listing"
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    PaginatedMatchListList:
+      example:
+        next: http://api.example.org/accounts/?offset=400&limit=100
+        previous: http://api.example.org/accounts/?offset=200&limit=100
+        count: 123
+        results:
+        - owner: ""
+          status_display: status_display
+          owner_notes: owner_notes
+          created_at: 2000-01-23T04:56:07.000+00:00
+          match_score: 0.8008281904610115
+          owner_action: message
+          seeker_notes: seeker_notes
+          match_score_percentage: match_score_percentage
+          seeker_action: message
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          seeker: ""
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          listing: ""
+          status: ""
+          match_reasons: ""
+        - owner: ""
+          status_display: status_display
+          owner_notes: owner_notes
+          created_at: 2000-01-23T04:56:07.000+00:00
+          match_score: 0.8008281904610115
+          owner_action: message
+          seeker_notes: seeker_notes
+          match_score_percentage: match_score_percentage
+          seeker_action: message
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          seeker: ""
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          listing: ""
+          status: ""
+          match_reasons: ""
+      properties:
+        count:
+          example: 123
+          type: integer
+        next:
+          example: http://api.example.org/accounts/?offset=400&limit=100
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          example: http://api.example.org/accounts/?offset=200&limit=100
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: "#/components/schemas/MatchList"
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    PaginatedMessageList:
+      example:
+        next: http://api.example.org/accounts/?offset=400&limit=100
+        previous: http://api.example.org/accounts/?offset=200&limit=100
+        count: 123
+        results:
+        - is_read: true
+          sender_details: ""
+          image: https://openapi-generator.tech
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          sender: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          recipient: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          created_at: 2000-01-23T04:56:07.000+00:00
+          recipient_details: ""
+          id: 6
+          conversation: 1
+          content: content
+        - is_read: true
+          sender_details: ""
+          image: https://openapi-generator.tech
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          sender: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          recipient: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          created_at: 2000-01-23T04:56:07.000+00:00
+          recipient_details: ""
+          id: 6
+          conversation: 1
+          content: content
+      properties:
+        count:
+          example: 123
+          type: integer
+        next:
+          example: http://api.example.org/accounts/?offset=400&limit=100
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          example: http://api.example.org/accounts/?offset=200&limit=100
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: "#/components/schemas/Message"
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    PaginatedMessageNotificationList:
+      example:
+        next: http://api.example.org/accounts/?offset=400&limit=100
+        previous: http://api.example.org/accounts/?offset=200&limit=100
+        count: 123
+        results:
+        - notification_type: ""
+          email_sent: true
+          email_sent_at: 2000-01-23T04:56:07.000+00:00
+          in_app_read: true
+          message_details: ""
+          read_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: 0
+          message: 6
+          user: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - notification_type: ""
+          email_sent: true
+          email_sent_at: 2000-01-23T04:56:07.000+00:00
+          in_app_read: true
+          message_details: ""
+          read_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: 0
+          message: 6
+          user: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        count:
+          example: 123
+          type: integer
+        next:
+          example: http://api.example.org/accounts/?offset=400&limit=100
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          example: http://api.example.org/accounts/?offset=200&limit=100
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: "#/components/schemas/MessageNotification"
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    PatchedConversationDetailRequest:
+      description: Detailed serializer for a single conversation with all messages
+      example:
+        is_active: true
+        match: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        match:
+          description: The match that initiated this conversation
+          format: uuid
+          type: string
+        is_active:
+          description: Whether the conversation is still active
+          type: boolean
+      type: object
+    PatchedListingWriteRequest:
+      example:
+        short_description: short_description
+        no_parties: true
+        room_size: 1.4658129805029452
+        available: true
+        occupied_rooms: 1175752406347165696
+        cleanliness_expectation: ""
+        title: title
+        rent: rent
+        quiet_hours: true
+        room_latitude: 0.8008281904610115
+        has_parking: true
+        current_roommates: ""
+        has_gym: true
+        room_longitude: 6.027456183070403
+        address: address
+        has_ac: true
+        noise_tolerance: ""
+        guest_policy: ""
+        lease_duration: -4976680883935979520
+        long_description: long_description
+        no_smoking: true
+        has_laundry: true
+        no_pets: true
+        total_rooms: 1774823812569044992
+        deposit: deposit
+        has_wifi: true
+        has_kitchen: true
+        room_type: private
+      properties:
+        title:
+          maxLength: 200
+          minLength: 1
+          type: string
+        address:
+          maxLength: 255
+          type: string
+        room_latitude:
+          format: double
+          nullable: true
+          type: number
+        room_longitude:
+          format: double
+          nullable: true
+          type: number
+        rent:
+          format: decimal
+          pattern: "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+          type: string
+        deposit:
+          format: decimal
+          nullable: true
+          pattern: "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+          type: string
+        room_type:
+          $ref: "#/components/schemas/RoomTypeEnum"
+        short_description:
+          maxLength: 300
+          type: string
+        long_description:
+          maxLength: 1000
+          minLength: 1
+          type: string
+        has_wifi:
+          type: boolean
+        has_parking:
+          type: boolean
+        has_laundry:
+          type: boolean
+        has_kitchen:
+          type: boolean
+        has_ac:
+          type: boolean
+        has_gym:
+          type: boolean
+        room_size:
+          format: double
+          nullable: true
+          type: number
+        no_smoking:
+          type: boolean
+        no_pets:
+          type: boolean
+        no_parties:
+          type: boolean
+        quiet_hours:
+          type: boolean
+        cleanliness_expectation:
+          allOf:
+          - $ref: "#/components/schemas/CleanlinessExpectationEnum"
+          description: |-
+            Expected cleanliness level (1=minimal to 4=very clean)
+
+            * `1` - Minimal (Very relaxed about cleanliness)
+            * `2` - Moderate (Some cleanliness standards)
+            * `3` - Clean (Regular cleaning expected)
+            * `4` - Very Clean (Strict cleanliness standards)
+          maximum: 9223372036854775807
+          minimum: 0
+        noise_tolerance:
+          allOf:
+          - $ref: "#/components/schemas/NoiseToleranceEnum"
+          description: |-
+            Owner's noise tolerance (1=loud to 4=silent)
+
+            * `1` - Very Quiet (Prefer silence/peace)
+            * `2` - Quiet (Some noise is OK)
+            * `3` - Moderate (Normal living noise)
+            * `4` - Lively (Active, music, gatherings)
+          maximum: 9223372036854775807
+          minimum: 0
+        guest_policy:
+          allOf:
+          - $ref: "#/components/schemas/GuestPolicyEnum"
+          description: |-
+            Owner's guest policy (1=very restrictive to 4=very open)
+
+            * `1` - No Guests Allowed
+            * `2` - Occasional Guests (1-2 per month)
+            * `3` - Moderate Guests (1-2 per week)
+            * `4` - Frequent Guests (Anytime)
+          maximum: 9223372036854775807
+          minimum: 0
+        total_rooms:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+        occupied_rooms:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+        current_roommates: {}
+        available:
+          type: boolean
+        lease_duration:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          type: integer
+      type: object
+    PatchedMessageRequest:
+      description: Serializer for individual messages
+      example:
+        is_read: true
+        image: ""
+        recipient: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        conversation: 0
+      properties:
+        conversation:
+          description: The conversation this message belongs to
+          type: integer
+        recipient:
+          description: User who receives the message
+          format: uuid
+          type: string
+        image:
+          description: Optional image attached to message
+          format: binary
+          nullable: true
+          type: string
+        is_read:
+          description: Whether the recipient has read this message
+          type: boolean
+      type: object
+    PatchedUserProfileUpdateRequest:
+      description: Serializer for updating user profile information (not auth or role-specific
+        data)
+      example:
+        image: ""
+        occupation: occupation
+        address: address
+        gender: any
+        phone: phone
+        dob: 2000-01-23
+        bio: bio
+        user_longitude: 6.027456183070403
+        username: username
+        user_latitude: 0.8008281904610115
+      properties:
+        username:
+          maxLength: 20
+          nullable: true
+          type: string
+        phone:
+          maxLength: 20
+          nullable: true
+          type: string
+        dob:
+          format: date
+          nullable: true
+          type: string
+        gender:
+          enum:
+          - any
+          - male
+          - female
+          - other
+          - prefer_not_to_say
+          - ""
+          - null
+          nullable: true
+          type: string
+        occupation:
+          maxLength: 100
+          nullable: true
+          type: string
+        bio:
+          nullable: true
+          type: string
+        image:
+          format: binary
+          nullable: true
+          type: string
+        address:
+          maxLength: 255
+          nullable: true
+          type: string
+        user_latitude:
+          format: double
+          nullable: true
+          type: number
+        user_longitude:
+          format: double
+          nullable: true
+          type: number
+      type: object
+    PreferredGenderEnum:
+      description: |-
+        * `any` - Any
+        * `male` - Male
+        * `female` - Female
+        * `other` - Other
+        * `prefer_not_to_say` - Prefer not to say
+      enum:
+      - any
+      - male
+      - female
+      - other
+      - prefer_not_to_say
+      type: string
+    RoomOwner:
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        user:
+          allOf:
+          - $ref: "#/components/schemas/User"
+          readOnly: true
+        email:
+          format: email
+          readOnly: true
+          type: string
+        username:
+          readOnly: true
+          type: string
+        gender:
+          readOnly: true
+          type: string
+        age:
+          readOnly: true
+          type: integer
+        occupation:
+          readOnly: true
+          type: string
+        is_verified:
+          type: boolean
+        preferences:
+          allOf:
+          - $ref: "#/components/schemas/OwnerPreferences"
+          readOnly: true
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+      required:
+      - age
+      - created_at
+      - email
+      - gender
+      - id
+      - occupation
+      - preferences
+      - updated_at
+      - user
+      - username
+      type: object
+    RoomOwnerRequest:
+      properties:
+        is_verified:
+          type: boolean
+      type: object
+    RoomTypeEnum:
+      description: |-
+        * `private` - Private
+        * `shared` - Shared
+      enum:
+      - private
+      - shared
+      type: string
+    SeekerActionEnum:
+      description: |-
+        * `message` - Message
+        * `pass` - Pass
+      enum:
+      - message
+      - pass
+      type: string
+    SeekerBasic:
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        user:
+          allOf:
+          - $ref: "#/components/schemas/UserBasic"
+          readOnly: true
+        age:
+          readOnly: true
+          type: integer
+        is_verified:
+          type: boolean
+      required:
+      - age
+      - id
+      - user
+      type: object
+    StatusEnum:
+      description: |-
+        * `pending` - Pending
+        * `discovered` - Discovered
+        * `interested` - Interested
+        * `rejected` - Rejected
+        * `owner_viewed` - Owner Viewed
+        * `owner_interested` - Owner Interested
+        * `owner_rejected` - Owner Rejected
+        * `mutual_interested` - Mutual Interested
+        * `messaging` - Messaging
+        * `meeting_scheduled` - Meeting Scheduled
+        * `listing_booked` - Listing Booked
+        * `expired` - Expired
+      enum:
+      - pending
+      - discovered
+      - interested
+      - rejected
+      - owner_viewed
+      - owner_interested
+      - owner_rejected
+      - mutual_interested
+      - messaging
+      - meeting_scheduled
+      - listing_booked
+      - expired
+      type: string
+    User:
+      example:
+        image: https://openapi-generator.tech
+        occupation: occupation
+        address: address
+        email_verified: true
+        is_active: true
+        gender: any
+        bio: bio
+        user_longitude: 6.027456183070403
+        user_latitude: 0.8008281904610115
+        phone: phone
+        dob: 2000-01-23
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        email: email
+        age: age
+        username: username
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        email:
+          format: email
+          maxLength: 254
+          type: string
+        username:
+          maxLength: 20
+          nullable: true
+          type: string
+        phone:
+          maxLength: 20
+          nullable: true
+          type: string
+        dob:
+          format: date
+          nullable: true
+          type: string
+        age:
+          readOnly: true
+          type: string
+        gender:
+          enum:
+          - any
+          - male
+          - female
+          - other
+          - prefer_not_to_say
+          - ""
+          - null
+          nullable: true
+          type: string
+        occupation:
+          maxLength: 100
+          nullable: true
+          type: string
+        bio:
+          nullable: true
+          type: string
+        image:
+          format: uri
+          nullable: true
+          type: string
+        address:
+          maxLength: 255
+          nullable: true
+          type: string
+        user_latitude:
+          format: double
+          nullable: true
+          type: number
+        user_longitude:
+          format: double
+          nullable: true
+          type: number
+        email_verified:
+          readOnly: true
+          type: boolean
+        is_active:
+          readOnly: true
+          type: boolean
+      required:
+      - age
+      - email
+      - email_verified
+      - id
+      - is_active
+      type: object
+    UserBasic:
+      description: Basic user info for nested serializers
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        email:
+          format: email
+          readOnly: true
+          type: string
+        username:
+          nullable: true
+          readOnly: true
+          type: string
+        first_name:
+          readOnly: true
+          type: string
+        last_name:
+          readOnly: true
+          type: string
+        gender:
+          enum:
+          - any
+          - male
+          - female
+          - other
+          - prefer_not_to_say
+          - null
+          nullable: true
+          readOnly: true
+          type: string
+        age:
+          readOnly: true
+          type: string
+        image:
+          format: uri
+          nullable: true
+          readOnly: true
+          type: string
+      required:
+      - age
+      - email
+      - first_name
+      - gender
+      - id
+      - image
+      - last_name
+      - username
+      type: object
+    UserLogin:
+      example:
+        password: password
+        email: email
+      properties:
+        email:
+          format: email
+          type: string
+        password:
+          maxLength: 255
+          type: string
+      required:
+      - email
+      - password
+      type: object
+    UserLoginRequest:
+      example:
+        password: password
+        email: email
+      properties:
+        email:
+          format: email
+          minLength: 1
+          type: string
+        password:
+          maxLength: 255
+          minLength: 1
+          type: string
+      required:
+      - email
+      - password
+      type: object
+    UserLogout:
+      example:
+        refresh: refresh
+      properties:
+        refresh:
+          maxLength: 510
+          type: string
+      required:
+      - refresh
+      type: object
+    UserLogoutRequest:
+      example:
+        refresh: refresh
+      properties:
+        refresh:
+          maxLength: 510
+          minLength: 1
+          type: string
+      required:
+      - refresh
+      type: object
+    UserProfileUpdate:
+      description: Serializer for updating user profile information (not auth or role-specific
+        data)
+      example:
+        image: https://openapi-generator.tech
+        occupation: occupation
+        address: address
+        gender: any
+        phone: phone
+        dob: 2000-01-23
+        bio: bio
+        user_longitude: 6.027456183070403
+        username: username
+        user_latitude: 0.8008281904610115
+      properties:
+        username:
+          maxLength: 20
+          nullable: true
+          type: string
+        phone:
+          maxLength: 20
+          nullable: true
+          type: string
+        dob:
+          format: date
+          nullable: true
+          type: string
+        gender:
+          enum:
+          - any
+          - male
+          - female
+          - other
+          - prefer_not_to_say
+          - ""
+          - null
+          nullable: true
+          type: string
+        occupation:
+          maxLength: 100
+          nullable: true
+          type: string
+        bio:
+          nullable: true
+          type: string
+        image:
+          format: uri
+          nullable: true
+          type: string
+        address:
+          maxLength: 255
+          nullable: true
+          type: string
+        user_latitude:
+          format: double
+          nullable: true
+          type: number
+        user_longitude:
+          format: double
+          nullable: true
+          type: number
+      type: object
+    UserProfileUpdateRequest:
+      description: Serializer for updating user profile information (not auth or role-specific
+        data)
+      example:
+        image: ""
+        occupation: occupation
+        address: address
+        gender: any
+        phone: phone
+        dob: 2000-01-23
+        bio: bio
+        user_longitude: 6.027456183070403
+        username: username
+        user_latitude: 0.8008281904610115
+      properties:
+        username:
+          maxLength: 20
+          nullable: true
+          type: string
+        phone:
+          maxLength: 20
+          nullable: true
+          type: string
+        dob:
+          format: date
+          nullable: true
+          type: string
+        gender:
+          enum:
+          - any
+          - male
+          - female
+          - other
+          - prefer_not_to_say
+          - ""
+          - null
+          nullable: true
+          type: string
+        occupation:
+          maxLength: 100
+          nullable: true
+          type: string
+        bio:
+          nullable: true
+          type: string
+        image:
+          format: binary
+          nullable: true
+          type: string
+        address:
+          maxLength: 255
+          nullable: true
+          type: string
+        user_latitude:
+          format: double
+          nullable: true
+          type: number
+        user_longitude:
+          format: double
+          nullable: true
+          type: number
+      type: object
+    UserRegister:
+      example:
+        image: https://openapi-generator.tech
+        occupation: occupation
+        address: address
+        is_active: false
+        gender: any
+        bio: bio
+        user_longitude: 6.027456183070403
+        user_latitude: 0.8008281904610115
+        phone: phone
+        dob: 2000-01-23
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        email: email
+        age: age
+        username: username
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        email:
+          format: email
+          maxLength: 254
+          type: string
+        username:
+          maxLength: 20
+          nullable: true
+          type: string
+        phone:
+          maxLength: 20
+          nullable: true
+          type: string
+        dob:
+          format: date
+          nullable: true
+          type: string
+        age:
+          readOnly: true
+          type: string
+        gender:
+          enum:
+          - any
+          - male
+          - female
+          - other
+          - prefer_not_to_say
+          - ""
+          - null
+          nullable: true
+          type: string
+        occupation:
+          maxLength: 100
+          nullable: true
+          type: string
+        bio:
+          nullable: true
+          type: string
+        image:
+          format: uri
+          nullable: true
+          readOnly: true
+          type: string
+        address:
+          maxLength: 255
+          nullable: true
+          type: string
+        user_latitude:
+          format: double
+          nullable: true
+          type: number
+        user_longitude:
+          format: double
+          nullable: true
+          type: number
+        is_active:
+          default: false
+          type: boolean
+      required:
+      - age
+      - email
+      - id
+      - image
+      type: object
+    UserRegisterRequest:
+      example:
+        password: password
+        occupation: occupation
+        address: address
+        is_active: false
+        gender: any
+        phone: phone
+        dob: 2000-01-23
+        bio: bio
+        user_longitude: 6.027456183070403
+        email: email
+        username: username
+        user_latitude: 0.8008281904610115
+      properties:
+        email:
+          format: email
+          maxLength: 254
+          minLength: 1
+          type: string
+        username:
+          maxLength: 20
+          nullable: true
+          type: string
+        password:
+          minLength: 8
+          type: string
+          writeOnly: true
+        phone:
+          maxLength: 20
+          nullable: true
+          type: string
+        dob:
+          format: date
+          nullable: true
+          type: string
+        gender:
+          enum:
+          - any
+          - male
+          - female
+          - other
+          - prefer_not_to_say
+          - ""
+          - null
+          nullable: true
+          type: string
+        occupation:
+          maxLength: 100
+          nullable: true
+          type: string
+        bio:
+          nullable: true
+          type: string
+        address:
+          maxLength: 255
+          nullable: true
+          type: string
+        user_latitude:
+          format: double
+          nullable: true
+          type: number
+        user_longitude:
+          format: double
+          nullable: true
+          type: number
+        is_active:
+          default: false
+          type: boolean
+      required:
+      - email
+      - password
+      type: object
+    UserRequest:
+      properties:
+        email:
+          format: email
+          maxLength: 254
+          minLength: 1
+          type: string
+        username:
+          maxLength: 20
+          nullable: true
+          type: string
+        phone:
+          maxLength: 20
+          nullable: true
+          type: string
+        dob:
+          format: date
+          nullable: true
+          type: string
+        gender:
+          enum:
+          - any
+          - male
+          - female
+          - other
+          - prefer_not_to_say
+          - ""
+          - null
+          nullable: true
+          type: string
+        occupation:
+          maxLength: 100
+          nullable: true
+          type: string
+        bio:
+          nullable: true
+          type: string
+        image:
+          format: binary
+          nullable: true
+          type: string
+        address:
+          maxLength: 255
+          nullable: true
+          type: string
+        user_latitude:
+          format: double
+          nullable: true
+          type: number
+        user_longitude:
+          format: double
+          nullable: true
+          type: number
+      required:
+      - email
+      type: object
+    UserSimple:
+      description: Simple serializer for user information in messages
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        username:
+          maxLength: 20
+          nullable: true
+          type: string
+        email:
+          format: email
+          maxLength: 254
+          type: string
+        full_name:
+          readOnly: true
+          type: string
+        image:
+          format: uri
+          nullable: true
+          type: string
+      required:
+      - email
+      - full_name
+      - id
+      type: object
+    UserSimpleRequest:
+      description: Simple serializer for user information in messages
+      properties:
+        username:
+          maxLength: 20
+          nullable: true
+          type: string
+        email:
+          format: email
+          maxLength: 254
+          minLength: 1
+          type: string
+        image:
+          format: binary
+          nullable: true
+          type: string
+      required:
+      - email
+      type: object
+  securitySchemes:
+    jwtAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+
